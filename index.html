@@ -46,7 +46,7 @@ body {
   color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 28px 64px; min-height: 100vh; overflow-x: hidden;
+  padding-block: 64px 64px; min-height: 100vh; overflow-x: hidden;
 }
 #embers { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 main { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; overflow-x: clip; overflow-y: visible; padding-block: 8px; }
@@ -60,7 +60,16 @@ p { margin: 0; }
 .lede { color: var(--muted); max-width: 56ch; font-size: 1.05rem; }
 .meta { font-size: 0.92rem; color: var(--muted); }
 .row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-.lang-toggle { position: fixed; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
+.qnav { display: flex; justify-content: space-between; gap: 12px; }
+.link-btn { font: inherit; font-size: 0.92rem; font-weight: 700; color: var(--muted); background: none; border: 0; padding: 8px 4px; cursor: pointer; }
+.link-btn:hover:not(:disabled) { color: var(--marigold); }
+.link-btn:disabled { opacity: .35; cursor: default; }
+.link-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.mini-locked { opacity: .35; filter: grayscale(.85); }
+.why { display: grid; gap: 14px; }
+.why p { max-width: 62ch; }
+.quiz-share { align-items: center; }
+.lang-toggle { position: absolute; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
   font-weight: 700; font-size: 0.92rem; color: var(--ink); text-decoration: none; padding: 7px 14px; border-radius: 999px;
   background: rgba(20, 16, 50, .7); border: 1.5px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .lang-toggle:hover { border-color: var(--marigold); }
@@ -245,7 +254,7 @@ p { margin: 0; }
   .leave { animation: slideOut .3s ease-in forwards; }
   .opt { animation: rise .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(80ms + var(--i) * 70ms); }
   .opt:hover, .opt.chosen, .opt.dim { animation: none; }
-  .fill { animation: grow 1.1s cubic-bezier(.2,.8,.2,1) both; animation-delay: .9s; }
+  .revealing .fill { animation: grow 1.1s cubic-bezier(.2,.8,.2,1) both; animation-delay: 1.6s; }
   .after { animation: rise .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: 1.5s; }
   .fadein { animation: rise .6s cubic-bezier(.2,.8,.2,1) both; }
   @keyframes turn { to { transform: rotate(360deg); } }
@@ -284,6 +293,7 @@ const LANG = (() => {
   return (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en";
 })();
 
+const art = w => (/^[aeiou]/i.test(w) ? "an" : "a");
 const STRINGS = {
   en: {
     switchTo: "हिंदी", switchLabel: "Switch to Hindi",
@@ -294,18 +304,18 @@ const STRINGS = {
     title: "Which character walks with you?", titleGlow: 1,
     lede: n => `Gods, heroes, sages and asuras: ${n} characters from the Puranas, the Ramayana, the Mahabharata and the Upanishads, each with a light side and a shadow side. Answer ${QUESTIONS_PER_QUIZ} questions and draw the card that mirrors you right now.`,
     start: "Light the first lamp",
-    meta: n => `${n} questions in the bank. Each one you get depends on your earlier answers, so no two runs are the same.`,
+    meta: n => `${n} questions in the bank. The questions adapt to your answers, so each run can take a different path.`,
     collection: "Your collection", unlocked: "unlocked", locked: r => `Locked ${r} card`,
     qLabel: (i, n) => `Question ${i} of ${n}`,
     hintStart: "Answer honestly, not the way you'd like to be.",
-    hintLead: (a, b) => `Two cards are glowing: a <b>${a}</b> and a <b>${b}</b>…`,
+    hintLead: (a, b) => `Two cards are glowing: ${art(a)} <b>${a}</b> and ${art(b)} <b>${b}</b>…`,
     rising: n => `All ${n} lamps are lit. Your card is rising…`,
     newCard: r => `New ${r} card unlocked`, again: name => `You drew ${name} again`,
     match: p => `${p}% match`, light: "Light", shadow: "Shadow", lesson: "Lesson", qualities: "Character qualities",
     shareTitle: "Share your card", copy: "Copy link", cardImage: "Card image", download: "Download image",
     copied: "Link copied. Paste it anywhere.", drawing: "Drawing your card…",
     imgHelp: "Long-press (phone) or right-click (computer) the image to save it, then post it to Instagram, WhatsApp status or anywhere else.",
-    shareText: (c, r) => `I got ${c.name} (${c.dev}), a ${r} card: ${c.e}. Which character walks with you?`,
+    shareText: (c, r) => `I got ${c.name} (${c.dev}), ${art(r)} ${r} card: ${c.e}. Which character walks with you?`,
     storyOf: name => `The story of ${name}`, story: "The story", belief: "What people believe", turns: "Mistakes and turning points", facts: "Did you know?",
     loadingStory: "Loading the story…", storyFail: "The story couldn't load. Check your connection and refresh.",
     close: "Close matches", playAgain: "Play again",
@@ -313,6 +323,18 @@ const STRINGS = {
     friend: "A friend drew this card. Which one is yours?", findMine: "Find my card", home: "Back to start",
     loadFail: "The quiz couldn't load. Check your connection and refresh the page.",
     imgTagline: "Which character walks with you?", imgFooter: "इष्ट देवता · Find Your Ishta Devata",
+    back: "← Back", quit: "Quit",
+    lockedHint: "Dim cards are ones you haven't drawn yet. Play again to find them.",
+    saved: "Image saved to your downloads.",
+    shareQuiz: "Share the quiz", quizText: "Which character from the Ramayana and Mahabharata walks with you? 8 questions, 55 cards:",
+    whyTitle: "Why this card",
+    why: (up, down, name) => `Your answers leaned most toward ${up.join(" and ")}, and away from ${down}. ${name}'s nature has the same shape.`,
+    pctNote: "Match compares the shape of your answers with each character's eight qualities. 100% is identical, 50% is unrelated, and below 50% is opposite.",
+    shadowCard: name => `${name} is a shadow card: not a deity, but the character your answers mirror right now, and a lesson in what to watch for.`,
+    notDeity: name => `${name} isn't a deity. The card shows the character your answers mirror right now.`,
+    ishtaTitle: "Your ishta devata",
+    ishta: (name, pct) => `Among the gods and goddesses, the one closest to your nature is ${name} (${pct}% match).`,
+    seeCard: name => `See ${name}'s card`,
   },
   hi: {
     switchTo: "English", switchLabel: "Switch to English",
@@ -323,7 +345,7 @@ const STRINGS = {
     title: "कौन-सा पात्र आपके साथ चलता है?", titleGlow: 0,
     lede: n => `देव, वीर, ऋषि और असुर: पुराणों, रामायण, महाभारत और उपनिषदों के ${n} पात्र, हर एक का प्रकाश भी है और छाया भी। ${QUESTIONS_PER_QUIZ} सवालों के जवाब दें और वह कार्ड पाएँ जो इस समय आपका आईना है।`,
     start: "पहला दीया जलाएँ",
-    meta: n => `सवालों के भंडार में ${n} सवाल हैं। हर अगला सवाल आपके पिछले जवाबों पर निर्भर है, इसलिए हर बार खेल अलग होता है।`,
+    meta: n => `सवालों के भंडार में ${n} सवाल हैं। सवाल आपके जवाबों के हिसाब से बदलते हैं, इसलिए हर बार रास्ता अलग हो सकता है।`,
     collection: "आपका संग्रह", unlocked: "खुले", locked: r => `बंद ${r} कार्ड`,
     qLabel: (i, n) => `प्रश्न ${i} / ${n}`,
     hintStart: "ईमानदारी से जवाब दें, वैसे नहीं जैसा आप बनना चाहते हैं।",
@@ -342,6 +364,18 @@ const STRINGS = {
     friend: "आपके दोस्त को यह कार्ड मिला। आपका कौन-सा है?", findMine: "मेरा कार्ड खोजें", home: "शुरुआत पर लौटें",
     loadFail: "क्विज़ लोड नहीं हो सका। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
     imgTagline: "कौन-सा पात्र आपके साथ चलता है?", imgFooter: "इष्ट देवता · अपना इष्ट देवता खोजें",
+    back: "← पीछे", quit: "छोड़ें",
+    lockedHint: "धुँधले कार्ड वे हैं जो अभी तक नहीं मिले। उन्हें पाने के लिए फिर से खेलें।",
+    saved: "तस्वीर आपके डाउनलोड में सेव हो गई।",
+    shareQuiz: "क्विज़ शेयर करें", quizText: "रामायण और महाभारत का कौन-सा पात्र आपके साथ चलता है? 8 सवाल, 55 कार्ड:",
+    whyTitle: "यह कार्ड क्यों",
+    why: (up, down, name) => `आपके जवाब सबसे ज़्यादा ${up.join(" और ")} की ओर झुके, और ${down} से दूर रहे। ${name} का स्वभाव भी ठीक ऐसा ही है।`,
+    pctNote: "मेल बताता है कि आपके जवाबों का ढाँचा हर पात्र के आठ गुणों से कितना मिलता है। 100% यानी बिल्कुल एक जैसा, 50% यानी कोई संबंध नहीं, और 50% से कम यानी उल्टा।",
+    shadowCard: name => `${name} छाया कार्ड है: कोई देवता नहीं, बल्कि वह पात्र जिसका आईना इस समय आपके जवाब हैं, और यह सीख कि किन बातों से सावधान रहना है।`,
+    notDeity: name => `${name} देवता नहीं हैं। यह कार्ड उस पात्र को दिखाता है जिसका आईना इस समय आपके जवाब हैं।`,
+    ishtaTitle: "आपके इष्ट देवता",
+    ishta: (name, pct) => `देवी-देवताओं में आपके स्वभाव के सबसे क़रीब ${name} हैं (${pct}% मेल)।`,
+    seeCard: name => `${name} का कार्ड देखें`,
   },
 };
 const T = STRINGS[LANG];
@@ -349,6 +383,8 @@ const rarityLabel = r => T.rarity[r];
 const factionLabel = f => T.faction[f] || f;
 // The name shown on cards: English name, or the Devanagari name in Hindi.
 const nm = c => (LANG === "hi" ? c.dev : c.name);
+const isDeity = c => ["Deva", "Devi", "Avatar"].includes(c.f);
+const SHADOW = new Set(["ravana", "kaikeyi", "duryodhana", "shakuni", "hiranyakashipu", "mahishasura", "kamsa", "ashwatthama"]);
 
 // ---------- Characters and questions (loaded from data/) ----------
 // Each character: p = profile on [dev, dha, jna, fie, ego, bond, joy, cun], each from -2 to 2.
@@ -538,10 +574,11 @@ function collectionHTML() {
   const sorted = CHARS.slice().sort((a, b) => RARITY_ORDER[b.r] - RARITY_ORDER[a.r] || a.name.localeCompare(b.name));
   const cells = sorted.map(c => collection.has(c.id)
     ? `<button class="mini-btn" id="mini-${c.id}" data-id="${c.id}" aria-label="${nm(c)}, ${rarityLabel(c.r)}">${miniFace(c)}</button>`
-    : `<div class="locked" aria-label="${T.locked(rarityLabel(c.r))}">${yantraSVG()}<span>${rarityLabel(c.r)}</span></div>`).join("");
+    : `<div class="mini-locked" title="${T.lockedHint}" aria-label="${nm(c)}, ${T.locked(rarityLabel(c.r))}">${miniFace(c)}</div>`).join("");
   return `<section class="collection">
     <div class="collection-head"><h3>${T.collection}</h3><span class="count"><b>${collection.size}</b> / ${CHARS.length} ${T.unlocked}</span></div>
     <div class="cbar"><span style="width:${(collection.size / CHARS.length) * 100}%"></span></div>
+    <p class="meta">${T.lockedHint}</p>
     <div class="grid">${cells}</div>
   </section>`;
 }
@@ -561,40 +598,56 @@ function renderIntro() {
     <ul class="rarity-key" aria-label="Cards by rarity">${rarityCounts()}</ul>
     <div class="fan" aria-hidden="true">${fan}</div>
     <p class="meta">${T.meta(QUESTIONS.length)}</p>
+    <div class="share-row quiz-share"><span class="meta">${T.shareQuiz}:</span>
+      <a class="sbtn wa" href="https://wa.me/?text=${encodeURIComponent(T.quizText + " " + quizLink())}" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="sbtn tg" href="https://t.me/share/url?url=${encodeURIComponent(quizLink())}&text=${encodeURIComponent(T.quizText)}" target="_blank" rel="noopener">Telegram</a>
+      <button class="sbtn" id="copy-quiz">${T.copy}</button></div>
+    <p class="toast" id="toast-quiz" role="status"></p>
   </section>
   ${collectionHTML()}`;
   document.getElementById("start").onclick = start;
+  document.getElementById("copy-quiz").onclick = () => copyText(`${T.quizText} ${quizLink()}`, document.getElementById("toast-quiz"));
   wireCollection();
 }
 
 function start() {
-  state = { U: new Array(AXES.length).fill(0), asked: new Set(), step: 0, current: null, order: null, busy: false };
+  state = { U: new Array(AXES.length).fill(0), asked: new Set(), step: 0, current: null, order: null, busy: false, hist: [] };
   nextQuestion();
   window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
 }
-function nextQuestion() {
-  const qi = pickNext(state.U, state.asked);
-  state.current = qi; state.order = shuffle([0, 1, 2, 3]); state.busy = false;
+function nextQuestion(again) {
+  const qi = again ? again.qi : pickNext(state.U, state.asked);
+  state.current = qi; state.order = again ? again.order : shuffle([0, 1, 2, 3]); state.busy = false;
   const q = QUESTIONS[qi];
   const lead = state.step >= 3 ? rank(state.U).slice(0, 2).map(t => t.c) : null;
   const opts = state.order.map((oi, k) =>
     `<button class="opt" data-o="${oi}" id="opt-${k}" style="--i:${k}"><span class="key">${"abcd"[k]}</span><span>${esc(q.a[oi][0])}</span></button>`).join("");
   app.innerHTML = `<section class="qwrap enter">
     ${diyas(state.step)}
-    <p class="progress-label">${LANG === "hi" ? `<span class="dev">${T.qLabel(devNum(state.step + 1), devNum(QUESTIONS_PER_QUIZ))}</span>` : `<span class="dev">प्रश्न ${devNum(state.step + 1)}</span>${T.qLabel(state.step + 1, QUESTIONS_PER_QUIZ)}`}</p>
+    <p class="progress-label">${LANG === "hi" ? `<span class="dev">${T.qLabel(devNum(state.step + 1), devNum(QUESTIONS_PER_QUIZ))}</span>` : T.qLabel(state.step + 1, QUESTIONS_PER_QUIZ)}</p>
     <div class="qpanel">
       <h2>${esc(q.q)}</h2>
       <div class="options">${opts}</div>
     </div>
     <p class="hint">${lead ? T.hintLead(rarityLabel(lead[0].r), rarityLabel(lead[1].r)) : T.hintStart}</p>
+    <div class="qnav"><button class="link-btn" id="qback" ${state.hist.length ? "" : "disabled"}>${T.back}</button><button class="link-btn" id="qquit">${T.quit}</button></div>
   </section>`;
   app.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(+b.dataset.o, b));
+  document.getElementById("qback").onclick = goBack;
+  document.getElementById("qquit").onclick = () => { state = null; renderIntro(); };
   app.querySelector(".opt").focus({ preventScroll: true });
+}
+// Undo the last answer and show that question again.
+function goBack() {
+  const h = state && state.hist.pop(); if (!h) return;
+  state.U = h.U; state.asked.delete(h.qi); state.step--;
+  nextQuestion(h);
 }
 async function answer(oi, btn) {
   if (state.busy) return; state.busy = true;
   app.querySelectorAll(".opt").forEach(b => b.classList.add(b === btn ? "chosen" : "dim"));
   const e = QUESTIONS[state.current].v[oi];
+  state.hist.push({ U: state.U.slice(), qi: state.current, order: state.order });
   state.U = state.U.map((v, i) => v + e[i]);
   state.asked.add(state.current);
   state.step++;
@@ -604,6 +657,23 @@ async function answer(oi, btn) {
   if (state.step < QUESTIONS_PER_QUIZ) nextQuestion(); else renderResult();
 }
 
+// Explains the result in plain words: the player's strongest leanings, and their closest deity when the card isn't one.
+function whyHTML(top, ranked) {
+  const mean = state.U.reduce((a, b) => a + b, 0) / AXES.length;
+  const lean = AXES.map((k, i) => [k, state.U[i] - mean]).sort((a, b) => b[1] - a[1]);
+  const up = lean.slice(0, 2).map(([k]) => T.axis[k]), down = T.axis[lean[lean.length - 1][0]];
+  let ishta = "";
+  if (!isDeity(top)) {
+    const god = ranked.find(t => isDeity(t.c));
+    ishta = `<div class="block" style="--k:var(--gold)"><h4>${T.ishtaTitle}</h4>
+      <p>${SHADOW.has(top.id) ? T.shadowCard(nm(top)) : T.notDeity(nm(top))} ${T.ishta(nm(god.c), matchPct(god.s))}</p>
+      <div><button class="sbtn" id="see-ishta" data-id="${god.c.id}">${T.seeCard(nm(god.c))}</button></div></div>`;
+  }
+  return `<section class="why">
+    <div class="block" style="--k:var(--r-legendary)"><h4>${T.whyTitle}</h4><p>${T.why(up, down, nm(top))}</p></div>
+    ${ishta}
+  </section>`;
+}
 async function renderResult() {
   const ranked = rank(state.U);
   const top = ranked[0].c;
@@ -615,7 +685,7 @@ async function renderResult() {
   app.innerHTML = `<section class="result fadein">
     ${diyas(QUESTIONS_PER_QUIZ)}
     <p class="eyebrow center reveal-label" id="reveal-label">${T.rising(LANG === "hi" ? devNum(QUESTIONS_PER_QUIZ) : QUESTIONS_PER_QUIZ)}</p>
-    <div class="stage" id="stage">
+    <div class="stage revealing" id="stage">
       <div class="rays" aria-hidden="true"></div>
       <div class="flip" id="flip"><div class="flip-inner face-down" id="flip-inner">
         <div class="front">${bigFace(top, matchPct(ranked[0].s))}<div class="glare"></div></div>
@@ -623,15 +693,18 @@ async function renderResult() {
       </div></div>
     </div>
     <div class="after result">
+      ${whyHTML(top, ranked)}
       ${shareHTML(top)}
       ${storyHTML(top)}
-      <div class="mix"><h3>${T.close}</h3>${bars}</div>
+      <div class="mix"><h3>${T.close}</h3>${bars}<p class="meta">${T.pctNote}</p></div>
       <div class="row"><button class="btn" id="again">${T.playAgain}</button></div>
       <p class="note">${T.note}</p>
     </div>
   </section>
   ${collectionHTML()}`;
   document.getElementById("again").onclick = start;
+  const ishtaBtn = document.getElementById("see-ishta");
+  if (ishtaBtn) ishtaBtn.onclick = () => renderCardOnly(byId[ishtaBtn.dataset.id], false);
   wireShare(top); wireCollection(); attachTilt(document.getElementById("flip")); fillLore(top);
   window.scrollTo({ top: 0 });
   let flipped = false;
@@ -670,6 +743,11 @@ function renderCardOnly(c, fromLink) {
 // ---------- Story and sharing ----------
 // The link people share. Change this if you host the quiz somewhere else.
 const SHARE_URL = "https://mrboora04.github.io/ishta-devata/";
+const quizLink = () => `${SHARE_URL}${LANG === "hi" ? "?lang=hi" : ""}`;
+function copyText(text, toast) {
+  const fallback = () => { toast.textContent = text; const r = document.createRange(); r.selectNodeContents(toast); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  try { navigator.clipboard.writeText(text).then(() => { toast.textContent = T.copied; }, fallback); } catch (e) { fallback(); }
+}
 const cardLink = c => `${SHARE_URL}${LANG === "hi" ? "?lang=hi" : ""}#card-${c.id}`;
 const shareText = c => T.shareText(c, rarityLabel(c.r));
 
@@ -733,6 +811,7 @@ async function saveImage(dataUrl, filename, toast) {
   const blob = await (await fetch(dataUrl)).blob();
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
+  toast.textContent = T.saved;
 }
 function wrapLines(ctx, text, maxW) {
   const words = text.split(" "), lines = []; let line = "";
