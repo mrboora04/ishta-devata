@@ -1,0 +1,1517 @@
+[
+ {
+  "q": "When do you feel closest to something greater than yourself?",
+  "a": [
+   [
+    "In prayer, chanting or singing",
+    {
+     "dev": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "In silence, with my eyes closed",
+    {
+     "jna": 1,
+     "bond": -2,
+     "joy": -1
+    }
+   ],
+   [
+    "When I'm doing my duty well",
+    {
+     "dha": 2,
+     "dev": 1
+    }
+   ],
+   [
+    "Honestly, I trust myself more than anything above me",
+    {
+     "ego": 2,
+     "dev": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "If God sat in front of you right now, you would…",
+  "a": [
+   [
+    "Fall at their feet and offer to serve",
+    {
+     "dev": 2,
+     "ego": -2
+    }
+   ],
+   [
+    "Hug them like an old friend",
+    {
+     "joy": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "Ask every question I've ever had",
+    {
+     "jna": 2
+    }
+   ],
+   [
+    "Ask why they let so much go wrong",
+    {
+     "ego": 1,
+     "fie": 1,
+     "dev": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Someone humiliated you in public years ago. Today you…",
+  "a": [
+   [
+    "Have forgiven it completely",
+    {
+     "ego": -2,
+     "fie": -1
+    }
+   ],
+   [
+    "Remember it, and I'm waiting for my moment",
+    {
+     "fie": 1,
+     "ego": 1,
+     "cun": 2
+    }
+   ],
+   [
+    "Answered it right then. It's settled",
+    {
+     "fie": 2,
+     "cun": -1
+    }
+   ],
+   [
+    "Still feel it burn. It shaped who I became",
+    {
+     "ego": 2,
+     "bond": 1,
+     "fie": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A vow you made now hurts innocent people. You…",
+  "a": [
+   [
+    "Keep it. A vow is a vow",
+    {
+     "dha": 2,
+     "cun": -2,
+     "bond": -1
+    }
+   ],
+   [
+    "Break it. People matter more than promises",
+    {
+     "bond": 2,
+     "dha": -1
+    }
+   ],
+   [
+    "Find a clever way to keep it on paper and still help",
+    {
+     "cun": 2,
+     "jna": 1
+    }
+   ],
+   [
+    "Ask someone wiser what's right",
+    {
+     "dev": 1,
+     "ego": -1,
+     "jna": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your closest friend asks you to join the wrong side. You…",
+  "a": [
+   [
+    "Go with them. Loyalty is everything",
+    {
+     "bond": 2,
+     "dha": -1
+    }
+   ],
+   [
+    "Tell them plainly and leave",
+    {
+     "dha": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "Stay close and try to change them from inside",
+    {
+     "bond": 1,
+     "cun": 1,
+     "jna": 1
+    }
+   ],
+   [
+    "Fight them if I have to",
+    {
+     "fie": 2,
+     "dha": 1,
+     "bond": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What do you want most from life?",
+  "a": [
+   [
+    "Freedom from wanting anything",
+    {
+     "bond": -2,
+     "ego": -2,
+     "jna": 1
+    }
+   ],
+   [
+    "Power, and a name that lasts",
+    {
+     "ego": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Love, family and good times",
+    {
+     "bond": 2,
+     "joy": 2
+    }
+   ],
+   [
+    "To live rightly, whatever it costs",
+    {
+     "dha": 2,
+     "joy": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which is worse?",
+  "a": [
+   [
+    "Being a coward",
+    {
+     "fie": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Being a liar",
+    {
+     "dha": 2,
+     "cun": -2
+    }
+   ],
+   [
+    "Being ungrateful",
+    {
+     "bond": 2,
+     "dev": 1
+    }
+   ],
+   [
+    "Being a fool",
+    {
+     "jna": 2,
+     "cun": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your greatest talent is ignored because of where you were born. You…",
+  "a": [
+   [
+    "Prove them all wrong, at any cost",
+    {
+     "ego": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Keep practising alone, for its own sake",
+    {
+     "ego": -1,
+     "dha": 1,
+     "dev": 1
+    }
+   ],
+   [
+    "Give my loyalty to whoever does recognise me",
+    {
+     "bond": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Laugh. Titles mean nothing to me",
+    {
+     "bond": -1,
+     "joy": 1,
+     "ego": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A long life nobody remembers, or a short one the world never forgets?",
+  "a": [
+   [
+    "Short and unforgettable",
+    {
+     "ego": 2,
+     "fie": 2
+    }
+   ],
+   [
+    "Long and quiet",
+    {
+     "ego": -2,
+     "fie": -1,
+     "joy": 1
+    }
+   ],
+   [
+    "Whichever my duty asks of me",
+    {
+     "dha": 2,
+     "ego": -1
+    }
+   ],
+   [
+    "Neither. I want to be free of the cycle",
+    {
+     "bond": -2,
+     "jna": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you win an argument?",
+  "a": [
+   [
+    "With facts and scripture",
+    {
+     "jna": 2,
+     "dha": 1
+    }
+   ],
+   [
+    "With charm and a smile",
+    {
+     "joy": 2,
+     "cun": 1
+    }
+   ],
+   [
+    "With patience. I outlast them",
+    {
+     "fie": -2,
+     "dha": 1
+    }
+   ],
+   [
+    "I don't argue. I act",
+    {
+     "fie": 2,
+     "jna": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What is your relationship with desire?",
+  "a": [
+   [
+    "I enjoy life fully. Desire is natural",
+    {
+     "joy": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "I'm learning to watch it without obeying it",
+    {
+     "jna": 1,
+     "bond": -1,
+     "joy": -1
+    }
+   ],
+   [
+    "When I want something, I take it",
+    {
+     "ego": 2,
+     "dha": -2
+    }
+   ],
+   [
+    "I've given most of it up",
+    {
+     "joy": -2,
+     "bond": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your family needs you, and so does the world. You choose…",
+  "a": [
+   [
+    "Family, always",
+    {
+     "bond": 2
+    }
+   ],
+   [
+    "The world, and I'll carry the guilt",
+    {
+     "dha": 2,
+     "bond": -2
+    }
+   ],
+   [
+    "Whoever needs me more urgently",
+    {
+     "jna": 1,
+     "cun": 1
+    }
+   ],
+   [
+    "I leave it to God and follow the sign",
+    {
+     "dev": 2,
+     "ego": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What scares you most?",
+  "a": [
+   [
+    "Losing the people I love",
+    {
+     "bond": 2
+    }
+   ],
+   [
+    "Being ordinary",
+    {
+     "ego": 2
+    }
+   ],
+   [
+    "Doing wrong without realising it",
+    {
+     "dha": 1,
+     "jna": 1,
+     "ego": -1
+    }
+   ],
+   [
+    "Nothing. Even death is a doorway",
+    {
+     "bond": -2,
+     "fie": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A powerful enemy offers you a deal that betrays someone small. You…",
+  "a": [
+   [
+    "Refuse at once",
+    {
+     "dha": 2,
+     "cun": -1
+    }
+   ],
+   [
+    "Accept, then betray the enemy later",
+    {
+     "cun": 2,
+     "dha": -1
+    }
+   ],
+   [
+    "Accept. Power is power",
+    {
+     "ego": 2,
+     "dha": -2
+    }
+   ],
+   [
+    "Refuse and challenge them openly",
+    {
+     "fie": 2,
+     "ego": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "When your anger rises, it is…",
+  "a": [
+   [
+    "A storm that could level a city",
+    {
+     "fie": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Cold, quiet and patient",
+    {
+     "cun": 2,
+     "fie": -1
+    }
+   ],
+   [
+    "Something I hand over in prayer",
+    {
+     "dev": 2,
+     "fie": -1
+    }
+   ],
+   [
+    "Words I can't take back once they're said",
+    {
+     "fie": 2,
+     "jna": 1,
+     "bond": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which teacher would you choose?",
+  "a": [
+   [
+    "A strict master who tests me without mercy",
+    {
+     "dha": 1,
+     "fie": 1,
+     "joy": -1
+    }
+   ],
+   [
+    "A playful one who teaches through stories",
+    {
+     "joy": 2,
+     "cun": 1
+    }
+   ],
+   [
+    "Life itself. I learn by doing",
+    {
+     "fie": 1,
+     "jna": -1,
+     "ego": 1
+    }
+   ],
+   [
+    "A silent sage I simply sit beside",
+    {
+     "jna": 2,
+     "bond": -1,
+     "fie": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What would you sacrifice for the person you love most?",
+  "a": [
+   [
+    "My own happiness, quietly, forever",
+    {
+     "bond": 2,
+     "ego": -2,
+     "joy": -1
+    }
+   ],
+   [
+    "My morals, if it came to that",
+    {
+     "bond": 2,
+     "dha": -2
+    }
+   ],
+   [
+    "My life, in battle",
+    {
+     "fie": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "Nothing. Love shouldn't be a chain",
+    {
+     "bond": -2,
+     "jna": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you treat someone with less power than you?",
+  "a": [
+   [
+    "Exactly as I'd treat a king",
+    {
+     "dha": 2,
+     "ego": -2
+    }
+   ],
+   [
+    "With kindness and gifts",
+    {
+     "bond": 1,
+     "joy": 1,
+     "ego": -1
+    }
+   ],
+   [
+    "Fairly, but they should know their place",
+    {
+     "ego": 2,
+     "dha": 1
+    }
+   ],
+   [
+    "It depends on whether they're useful to me",
+    {
+     "cun": 2,
+     "ego": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which battle would you rather fight?",
+  "a": [
+   [
+    "Against my own mind",
+    {
+     "jna": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "Against an army, beside my brothers",
+    {
+     "fie": 2,
+     "bond": 2
+    }
+   ],
+   [
+    "Against injustice in my own home",
+    {
+     "dha": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "I'd rather not fight at all",
+    {
+     "fie": -2,
+     "joy": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "When you pray or make a wish, what do you ask for?",
+  "a": [
+   [
+    "Nothing. I just say thank you",
+    {
+     "dev": 2,
+     "ego": -2
+    }
+   ],
+   [
+    "Strength to do my duty",
+    {
+     "dha": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Success, wealth, victory",
+    {
+     "ego": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "Understanding",
+    {
+     "jna": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You discover a secret that could ruin someone you dislike. You…",
+  "a": [
+   [
+    "Use it",
+    {
+     "cun": 2,
+     "ego": 1,
+     "dha": -1
+    }
+   ],
+   [
+    "Bury it forever",
+    {
+     "dha": 1,
+     "ego": -1,
+     "cun": -1
+    }
+   ],
+   [
+    "Tell them I know, so they change",
+    {
+     "jna": 1,
+     "dha": 1,
+     "fie": 1
+    }
+   ],
+   [
+    "Keep it for when I really need it",
+    {
+     "cun": 2,
+     "bond": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your ideal home is…",
+  "a": [
+   [
+    "A hut or a cave in the forest",
+    {
+     "bond": -2,
+     "joy": -2
+    }
+   ],
+   [
+    "A golden palace",
+    {
+     "ego": 2,
+     "joy": 2
+    }
+   ],
+   [
+    "A big house full of family and noise",
+    {
+     "bond": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "Wherever my work takes me",
+    {
+     "dha": 1,
+     "bond": -1,
+     "fie": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you see fate?",
+  "a": [
+   [
+    "It's written. I accept it with grace",
+    {
+     "dev": 2,
+     "fie": -1
+    }
+   ],
+   [
+    "I bend it with effort",
+    {
+     "fie": 1,
+     "ego": 1,
+     "cun": 1
+    }
+   ],
+   [
+    "It's a game, and I know the rules",
+    {
+     "cun": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "It's karma. I reap what I sow",
+    {
+     "dha": 2,
+     "jna": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Someone you love makes a terrible mistake. You…",
+  "a": [
+   [
+    "Defend them in public, scold them in private",
+    {
+     "bond": 2,
+     "cun": 1
+    }
+   ],
+   [
+    "Stand with the truth, even against them",
+    {
+     "dha": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "Take the blame myself",
+    {
+     "ego": -2,
+     "bond": 2
+    }
+   ],
+   [
+    "Walk away",
+    {
+     "bond": -2,
+     "fie": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What do food, music and celebration mean to you?",
+  "a": [
+   [
+    "I live for them",
+    {
+     "joy": 2
+    }
+   ],
+   [
+    "Pleasant, but I can drop them any time",
+    {
+     "joy": -1,
+     "bond": -1
+    }
+   ],
+   [
+    "I fast and keep strict discipline",
+    {
+     "joy": -2,
+     "dha": 1
+    }
+   ],
+   [
+    "I celebrate as a form of worship",
+    {
+     "dev": 2,
+     "joy": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You're given limitless power for one day. You…",
+  "a": [
+   [
+    "Give it away. I don't trust myself with it",
+    {
+     "ego": -2,
+     "jna": 1
+    }
+   ],
+   [
+    "Set right every injustice I can",
+    {
+     "dha": 2,
+     "fie": 2
+    }
+   ],
+   [
+    "Make sure no one can ever threaten me again",
+    {
+     "ego": 2,
+     "cun": 1,
+     "fie": 1
+    }
+   ],
+   [
+    "Spend it on the people I love",
+    {
+     "bond": 2,
+     "joy": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Most of the time, your mind is…",
+  "a": [
+   [
+    "Planning three moves ahead",
+    {
+     "cun": 2,
+     "jna": 1
+    }
+   ],
+   [
+    "Quiet",
+    {
+     "jna": 1,
+     "fie": -2
+    }
+   ],
+   [
+    "On fire with some goal",
+    {
+     "fie": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Full of someone I love",
+    {
+     "bond": 2,
+     "dev": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you change, if you change at all?",
+  "a": [
+   [
+    "One crisis and I'm a different person",
+    {
+     "jna": 2,
+     "ego": -1
+    }
+   ],
+   [
+    "Slowly, through discipline",
+    {
+     "dha": 2,
+     "joy": -1
+    }
+   ],
+   [
+    "I don't. I am who I am",
+    {
+     "ego": 2,
+     "cun": -1
+    }
+   ],
+   [
+    "Through the people I love",
+    {
+     "bond": 2,
+     "dev": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "In a team, your fatal flaw is…",
+  "a": [
+   [
+    "I won't bend, even when I should",
+    {
+     "dha": 2,
+     "cun": -2
+    }
+   ],
+   [
+    "I trust the wrong people",
+    {
+     "bond": 2,
+     "jna": -1
+    }
+   ],
+   [
+    "I need to be the best one there",
+    {
+     "ego": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "I play games no one else understands",
+    {
+     "cun": 2,
+     "joy": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Standing before a temple idol, you feel…",
+  "a": [
+   [
+    "Love, like seeing family",
+    {
+     "dev": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "Peace",
+    {
+     "fie": -1,
+     "jna": 1,
+     "bond": -1
+    }
+   ],
+   [
+    "Curious about what it symbolises",
+    {
+     "jna": 2
+    }
+   ],
+   [
+    "Not much. The divine is inside me",
+    {
+     "ego": 1,
+     "dev": -1,
+     "jna": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You've badly wronged someone. You…",
+  "a": [
+   [
+    "Confess and accept any punishment",
+    {
+     "dha": 2,
+     "ego": -2
+    }
+   ],
+   [
+    "Quietly make it up to them",
+    {
+     "bond": 1,
+     "cun": 1,
+     "ego": -1
+    }
+   ],
+   [
+    "Justify it. They had it coming",
+    {
+     "ego": 2,
+     "dha": -1
+    }
+   ],
+   [
+    "Never forgive myself",
+    {
+     "joy": -2,
+     "bond": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A child asks you, \"What is God?\" You say…",
+  "a": [
+   [
+    "\"Love.\"",
+    {
+     "dev": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "\"The truth inside everything.\"",
+    {
+     "jna": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "\"Doing what's right.\"",
+    {
+     "dha": 2
+    }
+   ],
+   [
+    "\"Be strong and you won't need one.\"",
+    {
+     "ego": 2,
+     "fie": 1,
+     "dev": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your enemy falls before you, unarmed. You…",
+  "a": [
+   [
+    "Spare them",
+    {
+     "dha": 1,
+     "ego": -1,
+     "fie": -1
+    }
+   ],
+   [
+    "Finish it. Mercy now costs lives later",
+    {
+     "fie": 2,
+     "cun": 1
+    }
+   ],
+   [
+    "Finish it. They never showed mercy",
+    {
+     "fie": 2,
+     "ego": 1,
+     "dha": -1
+    }
+   ],
+   [
+    "Make them an ally",
+    {
+     "cun": 2,
+     "bond": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which image best describes your inner world?",
+  "a": [
+   [
+    "Still water",
+    {
+     "fie": -2,
+     "jna": 1
+    }
+   ],
+   [
+    "A river in flood",
+    {
+     "fie": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "A chessboard",
+    {
+     "cun": 2
+    }
+   ],
+   [
+    "A temple lamp",
+    {
+     "dev": 2,
+     "dha": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your biggest weakness is…",
+  "a": [
+   [
+    "Pride",
+    {
+     "ego": 2
+    }
+   ],
+   [
+    "Attachment",
+    {
+     "bond": 2
+    }
+   ],
+   [
+    "Temper",
+    {
+     "fie": 2
+    }
+   ],
+   [
+    "Indulgence",
+    {
+     "joy": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A throne is yours by right, but your brother wants it. You…",
+  "a": [
+   [
+    "Give it to him without a word",
+    {
+     "ego": -2,
+     "bond": 2
+    }
+   ],
+   [
+    "Take it. It's mine by right",
+    {
+     "ego": 1,
+     "dha": 1,
+     "fie": 1
+    }
+   ],
+   [
+    "Take it. He'd ruin the kingdom",
+    {
+     "dha": 1,
+     "cun": 1,
+     "ego": 1
+    }
+   ],
+   [
+    "Walk away from thrones entirely",
+    {
+     "bond": -2,
+     "ego": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you get what you want?",
+  "a": [
+   [
+    "Hard work and patience",
+    {
+     "dha": 1,
+     "fie": -1,
+     "ego": -1
+    }
+   ],
+   [
+    "Penance and sheer willpower",
+    {
+     "fie": 1,
+     "joy": -2,
+     "ego": 1
+    }
+   ],
+   [
+    "Strategy and timing",
+    {
+     "cun": 2
+    }
+   ],
+   [
+    "I ask with love, and it usually comes",
+    {
+     "dev": 1,
+     "joy": 1,
+     "bond": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What would you most like to be known for?",
+  "a": [
+   [
+    "My generosity",
+    {
+     "bond": 1,
+     "ego": -1,
+     "joy": 1
+    }
+   ],
+   [
+    "My courage",
+    {
+     "fie": 2
+    }
+   ],
+   [
+    "My wisdom",
+    {
+     "jna": 2
+    }
+   ],
+   [
+    "My devotion",
+    {
+     "dev": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "When rules and love collide, which wins?",
+  "a": [
+   [
+    "The rules",
+    {
+     "dha": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "Love",
+    {
+     "bond": 2,
+     "dha": -1
+    }
+   ],
+   [
+    "Neither. I look for what's truly right",
+    {
+     "jna": 2,
+     "cun": 1
+    }
+   ],
+   [
+    "Whatever serves me",
+    {
+     "ego": 2,
+     "cun": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "How do you take praise?",
+  "a": [
+   [
+    "It embarrasses me",
+    {
+     "ego": -2
+    }
+   ],
+   [
+    "I enjoy it. I earned it",
+    {
+     "ego": 2,
+     "joy": 1
+    }
+   ],
+   [
+    "I pass it on to my teacher, or to God",
+    {
+     "dev": 2,
+     "ego": -1
+    }
+   ],
+   [
+    "I barely notice. I'm already on to the next thing",
+    {
+     "fie": 1,
+     "bond": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Right before the biggest moment of your life, you…",
+  "a": [
+   [
+    "Doubt everything, ask someone I trust, then give it everything",
+    {
+     "dev": 1,
+     "jna": 1,
+     "fie": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "Charge in without a second thought",
+    {
+     "fie": 2,
+     "jna": -1,
+     "cun": -1
+    }
+   ],
+   [
+    "Have planned for it for years",
+    {
+     "cun": 2,
+     "jna": 1
+    }
+   ],
+   [
+    "Feel calm. Whatever happens is fine",
+    {
+     "bond": -2,
+     "fie": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You're insulted in front of everyone you respect. You…",
+  "a": [
+   [
+    "Demand justice, and don't rest until it's done",
+    {
+     "fie": 2,
+     "ego": 2,
+     "dha": 1
+    }
+   ],
+   [
+    "Stay silent and endure it",
+    {
+     "ego": -2,
+     "fie": -1
+    }
+   ],
+   [
+    "Plan my revenge quietly",
+    {
+     "cun": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Curse them on the spot",
+    {
+     "fie": 2,
+     "bond": -2,
+     "jna": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which vow could you keep for your whole life?",
+  "a": [
+   [
+    "Never to marry or rule, for my family's sake",
+    {
+     "dha": 2,
+     "bond": 1,
+     "joy": -2
+    }
+   ],
+   [
+    "Never to stop serving the one I love",
+    {
+     "dev": 2,
+     "bond": 2
+    }
+   ],
+   [
+    "Never to refuse anyone who asks me for something",
+    {
+     "bond": 1,
+     "ego": 1,
+     "cun": -2
+    }
+   ],
+   [
+    "None. I keep my freedom",
+    {
+     "dha": -2,
+     "joy": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You see something beautiful that isn't yours. You want…",
+  "a": [
+   [
+    "To have it, whatever it takes",
+    {
+     "ego": 2,
+     "dha": -2,
+     "joy": 1,
+     "jna": -1
+    }
+   ],
+   [
+    "To admire it and move on",
+    {
+     "bond": -1,
+     "ego": -1
+    }
+   ],
+   [
+    "To win it fairly, in open competition",
+    {
+     "fie": 2,
+     "dha": 1,
+     "joy": 1
+    }
+   ],
+   [
+    "To create something even better myself",
+    {
+     "jna": 2,
+     "ego": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What kind of power do you admire most?",
+  "a": [
+   [
+    "Mastery of knowledge and the arts",
+    {
+     "jna": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Raw strength",
+    {
+     "fie": 2,
+     "jna": -1
+    }
+   ],
+   [
+    "Moral authority",
+    {
+     "dha": 2,
+     "ego": -1
+    }
+   ],
+   [
+    "Being loved by everyone",
+    {
+     "joy": 1,
+     "bond": 2
+    }
+   ]
+  ]
+ }
+]
