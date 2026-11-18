@@ -60,6 +60,15 @@ p { margin: 0; }
 .lede { color: var(--muted); max-width: 56ch; font-size: 1.05rem; }
 .meta { font-size: 0.92rem; color: var(--muted); }
 .row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.lang-toggle { position: fixed; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
+  font-weight: 700; font-size: 0.92rem; color: var(--ink); text-decoration: none; padding: 7px 14px; border-radius: 999px;
+  background: rgba(20, 16, 50, .7); border: 1.5px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.lang-toggle:hover { border-color: var(--marigold); }
+.lang-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+:lang(hi) body { line-height: 1.75; }
+/* Letter-spacing breaks Devanagari letters apart, so Hindi labels drop it. */
+:lang(hi) .eyebrow, :lang(hi) .badge, :lang(hi) .lsl b, :lang(hi) .block h4, :lang(hi) .rl, :lang(hi) .locked, :lang(hi) .stat, :lang(hi) .match { letter-spacing: 0; }
+:lang(hi) .eyebrow, :lang(hi) .lsl b, :lang(hi) .block h4 { font-size: 0.9rem; }
 
 /* Buttons */
 .btn { position: relative; overflow: hidden; font: inherit; font-weight: 700; cursor: pointer; border-radius: 14px; padding: 14px 28px; border: 0;
@@ -263,23 +272,87 @@ const QUESTIONS_PER_QUIZ = 8;
 
 // Eight inner qualities every character and every answer is measured on.
 const AXES = ["dev", "dha", "jna", "fie", "ego", "bond", "joy", "cun"];
-const AXIS_LABEL = { dev: "Devotion", dha: "Dharma", jna: "Wisdom", fie: "Fire", ego: "Ego", bond: "Attachment", joy: "Joy", cun: "Cunning" };
+const RARITY_ORDER = { common: 1, rare: 2, epic: 3, legendary: 4, champion: 5 };
 
-const RARITY = {
-  // The Mahabharata's own ranks of warriors, from Ardharathi (half a chariot-warrior) up to Atimaharathi.
-  common:    { label: "Ardharathi",   order: 1 },
-  rare:      { label: "Rathi",        order: 2 },
-  epic:      { label: "Atirathi",     order: 3 },
-  legendary: { label: "Maharathi",    order: 4 },
-  champion:  { label: "Atimaharathi", order: 5 },
+// ---------- Language ----------
+// English is the base; Hindi text lives in data/hi/. The choice is kept in the link (?lang=hi) and in this browser.
+const LANGS = ["en", "hi"];
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (LANGS.includes(q)) return q;
+  try { const s = localStorage.getItem("ishta-lang"); if (LANGS.includes(s)) return s; } catch (e) {}
+  return (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en";
+})();
+
+const STRINGS = {
+  en: {
+    switchTo: "हिंदी", switchLabel: "Switch to Hindi",
+    rarity: { common: "Ardharathi", rare: "Rathi", epic: "Atirathi", legendary: "Maharathi", champion: "Atimaharathi" },
+    axis: { dev: "Devotion", dha: "Dharma", jna: "Wisdom", fie: "Fire", ego: "Ego", bond: "Attachment", joy: "Joy", cun: "Cunning" },
+    faction: {},
+    eyebrow: "इष्ट देवता · Ishta Devata",
+    title: "Which character walks with you?", titleGlow: 1,
+    lede: n => `Gods, heroes, sages and asuras: ${n} characters from the Puranas, the Ramayana, the Mahabharata and the Upanishads, each with a light side and a shadow side. Answer ${QUESTIONS_PER_QUIZ} questions and draw the card that mirrors you right now.`,
+    start: "Light the first lamp",
+    meta: n => `${n} questions in the bank. Each one you get depends on your earlier answers, so no two runs are the same.`,
+    collection: "Your collection", unlocked: "unlocked", locked: r => `Locked ${r} card`,
+    qLabel: (i, n) => `Question ${i} of ${n}`,
+    hintStart: "Answer honestly, not the way you'd like to be.",
+    hintLead: (a, b) => `Two cards are glowing: a <b>${a}</b> and a <b>${b}</b>…`,
+    rising: n => `All ${n} lamps are lit. Your card is rising…`,
+    newCard: r => `New ${r} card unlocked`, again: name => `You drew ${name} again`,
+    match: p => `${p}% match`, light: "Light", shadow: "Shadow", lesson: "Lesson", qualities: "Character qualities",
+    shareTitle: "Share your card", copy: "Copy link", cardImage: "Card image", download: "Download image",
+    copied: "Link copied. Paste it anywhere.", drawing: "Drawing your card…",
+    imgHelp: "Long-press (phone) or right-click (computer) the image to save it, then post it to Instagram, WhatsApp status or anywhere else.",
+    shareText: (c, r) => `I got ${c.name} (${c.dev}), a ${r} card: ${c.e}. Which character walks with you?`,
+    storyOf: name => `The story of ${name}`, story: "The story", belief: "What people believe", turns: "Mistakes and turning points", facts: "Did you know?",
+    loadingStory: "Loading the story…", storyFail: "The story couldn't load. Check your connection and refresh.",
+    close: "Close matches", playAgain: "Play again",
+    note: "A reflection based on how these characters are told in the stories, not a religious judgement. Versions of every story differ by region and text, and every character, even the villains, carries a lesson.",
+    friend: "A friend drew this card. Which one is yours?", findMine: "Find my card", home: "Back to start",
+    loadFail: "The quiz couldn't load. Check your connection and refresh the page.",
+    imgTagline: "Which character walks with you?", imgFooter: "इष्ट देवता · Find Your Ishta Devata",
+  },
+  hi: {
+    switchTo: "English", switchLabel: "Switch to English",
+    rarity: { common: "अर्धरथी", rare: "रथी", epic: "अतिरथी", legendary: "महारथी", champion: "अतिमहारथी" },
+    axis: { dev: "भक्ति", dha: "धर्म", jna: "ज्ञान", fie: "तेज", ego: "अहं", bond: "मोह", joy: "आनंद", cun: "चतुराई" },
+    faction: { Deva: "देव", Devi: "देवी", Avatar: "अवतार", Ramayana: "रामायण", Mahabharata: "महाभारत", Asura: "असुर", Rishi: "ऋषि", Upanishad: "उपनिषद" },
+    eyebrow: "इष्ट देवता",
+    title: "कौन-सा पात्र आपके साथ चलता है?", titleGlow: 0,
+    lede: n => `देव, वीर, ऋषि और असुर: पुराणों, रामायण, महाभारत और उपनिषदों के ${n} पात्र, हर एक का प्रकाश भी है और छाया भी। ${QUESTIONS_PER_QUIZ} सवालों के जवाब दें और वह कार्ड पाएँ जो इस समय आपका आईना है।`,
+    start: "पहला दीया जलाएँ",
+    meta: n => `सवालों के भंडार में ${n} सवाल हैं। हर अगला सवाल आपके पिछले जवाबों पर निर्भर है, इसलिए हर बार खेल अलग होता है।`,
+    collection: "आपका संग्रह", unlocked: "खुले", locked: r => `बंद ${r} कार्ड`,
+    qLabel: (i, n) => `प्रश्न ${i} / ${n}`,
+    hintStart: "ईमानदारी से जवाब दें, वैसे नहीं जैसा आप बनना चाहते हैं।",
+    hintLead: (a, b) => `दो कार्ड चमक रहे हैं: एक <b>${a}</b> और एक <b>${b}</b>…`,
+    rising: n => `${n} के ${n} दीये जल गए। आपका कार्ड उभर रहा है…`,
+    newCard: r => `नया ${r} कार्ड खुला`, again: name => `आपको फिर से ${name} मिले`,
+    match: p => `${p}% मेल`, light: "प्रकाश", shadow: "छाया", lesson: "सीख", qualities: "पात्र के गुण",
+    shareTitle: "अपना कार्ड शेयर करें", copy: "लिंक कॉपी करें", cardImage: "कार्ड की तस्वीर", download: "तस्वीर डाउनलोड करें",
+    copied: "लिंक कॉपी हो गया। कहीं भी पेस्ट करें।", drawing: "आपका कार्ड बन रहा है…",
+    imgHelp: "तस्वीर सेव करने के लिए उसे देर तक दबाएँ (फ़ोन) या राइट-क्लिक करें (कंप्यूटर), फिर इंस्टाग्राम, व्हाट्सऐप स्टेटस या कहीं भी पोस्ट करें।",
+    shareText: (c, r) => `मुझे ${c.dev} मिले, एक ${r} कार्ड: ${c.e}। आपके साथ कौन-सा पात्र चलता है?`,
+    storyOf: name => `${name} की कथा`, story: "कथा", belief: "लोग क्या मानते हैं", turns: "भूलें और मोड़", facts: "क्या आप जानते हैं?",
+    loadingStory: "कथा लोड हो रही है…", storyFail: "कथा लोड नहीं हो सकी। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
+    close: "निकटतम मेल", playAgain: "फिर से खेलें",
+    note: "यह इस बात पर आधारित एक चिंतन है कि कथाओं में इन पात्रों को कैसे बताया गया है, कोई धार्मिक निर्णय नहीं। हर कथा के रूप क्षेत्र और ग्रंथ के अनुसार बदलते हैं, और हर पात्र, खलनायक भी, कोई न कोई सीख देता है।",
+    friend: "आपके दोस्त को यह कार्ड मिला। आपका कौन-सा है?", findMine: "मेरा कार्ड खोजें", home: "शुरुआत पर लौटें",
+    loadFail: "क्विज़ लोड नहीं हो सका। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
+    imgTagline: "कौन-सा पात्र आपके साथ चलता है?", imgFooter: "इष्ट देवता · अपना इष्ट देवता खोजें",
+  },
 };
+const T = STRINGS[LANG];
+const rarityLabel = r => T.rarity[r];
+const factionLabel = f => T.faction[f] || f;
+// The name shown on cards: English name, or the Devanagari name in Hindi.
+const nm = c => (LANG === "hi" ? c.dev : c.name);
 
-// ---------- The 49 characters ----------
-// p = profile on [dev, dha, jna, fie, ego, bond, joy, cun], each from -2 to 2.
-// Characters, questions and stories live in the data/ folder.
+// ---------- Characters and questions (loaded from data/) ----------
+// Each character: p = profile on [dev, dha, jna, fie, ego, bond, joy, cun], each from -2 to 2.
 let CHARS = [];
-
-// ---------- The question bank ----------
 // Each answer nudges the eight qualities. Each person sees QUESTIONS_PER_QUIZ of these,
 // chosen one at a time to tell apart the characters closest to their answers so far.
 let QUESTIONS = [];
@@ -373,27 +446,29 @@ function diyas(step) {
 }
 
 // ---------- Cards ----------
-const glyphSize = c => `${Math.max(1.5, 3.4 - Math.max(0, c.dev.length - 3) * 0.28).toFixed(2)}rem`;
+const firstAkshara = w => { try { return [...new Intl.Segmenter("hi", { granularity: "grapheme" }).segment(w)][0].segment; } catch (e) { return w[0]; } };
+const medalText = c => (LANG === "hi" ? firstAkshara(c.dev) : c.dev);
+const glyphSize = c => (LANG === "hi" ? "4.2rem" : `${Math.max(1.5, 3.4 - Math.max(0, c.dev.length - 3) * 0.28).toFixed(2)}rem`);
 function bigFace(c, pct) {
-  const stats = AXES.map((k, i) => `<div class="stat"><span>${AXIS_LABEL[k]}</span><span class="track"><span class="fill" style="width:${((c.p[i] + 2) / 4) * 100}%"></span></span></div>`).join("");
+  const stats = AXES.map((k, i) => `<div class="stat"><span>${T.axis[k]}</span><span class="track"><span class="fill" style="width:${((c.p[i] + 2) / 4) * 100}%"></span></span></div>`).join("");
   return `<article class="face big ${c.r}" style="--c:${rc(c.r)}">
-    <div class="face-top"><span class="badge rar">${RARITY[c.r].label}</span><span class="stars" aria-hidden="true">${"◆".repeat(RARITY[c.r].order)}</span><span class="badge fac">${c.f}</span></div>
-    <div class="medal"><div class="medal-in">${yantraSVG()}<span class="glyph" style="font-size:${glyphSize(c)}">${c.dev}</span></div></div>
-    <h2 class="name">${c.name}</h2>
+    <div class="face-top"><span class="badge rar">${rarityLabel(c.r)}</span><span class="stars" aria-hidden="true">${"◆".repeat(RARITY_ORDER[c.r])}</span><span class="badge fac">${factionLabel(c.f)}</span></div>
+    <div class="medal"><div class="medal-in">${yantraSVG()}<span class="glyph" style="font-size:${glyphSize(c)}">${medalText(c)}</span></div></div>
+    <h2 class="name">${nm(c)}</h2>
     <p class="epithet">${c.e}</p>
-    ${pct != null ? `<p class="match">${pct}% match</p>` : ""}
+    ${pct != null ? `<p class="match">${T.match(pct)}</p>` : ""}
     <div class="lsl">
-      <div style="--k:var(--marigold)"><b>Light</b>${c.light}</div>
-      <div style="--k:var(--r-epic)"><b>Shadow</b>${c.shadow}</div>
-      <div style="--k:var(--r-legendary)"><b>Lesson</b>${c.lesson}</div>
+      <div style="--k:var(--marigold)"><b>${T.light}</b>${c.light}</div>
+      <div style="--k:var(--r-epic)"><b>${T.shadow}</b>${c.shadow}</div>
+      <div style="--k:var(--r-legendary)"><b>${T.lesson}</b>${c.lesson}</div>
     </div>
-    <div class="stats" aria-label="Character qualities">${stats}</div>
+    <div class="stats" aria-label="${T.qualities}">${stats}</div>
   </article>`;
 }
 function miniFace(c) {
   return `<div class="face mini ${c.r}" style="--c:${rc(c.r)}">
-    <div class="medal"><div class="medal-in">${yantraSVG()}<span class="glyph">${c.dev[0]}</span></div></div>
-    <span class="nm">${c.name}</span><span class="rl">${RARITY[c.r].label}</span></div>`;
+    <div class="medal"><div class="medal-in">${yantraSVG()}<span class="glyph">${firstAkshara(c.dev)}</span></div></div>
+    <span class="nm">${nm(c)}</span><span class="rl">${rarityLabel(c.r)}</span></div>`;
 }
 const backFace = () => `<div class="back-face" aria-hidden="true">${mandalaSVG()}<span>इष्ट देवता</span></div>`;
 
@@ -457,15 +532,15 @@ const fx = (() => {
 // ---------- Screens ----------
 function rarityCounts() {
   const n = {}; CHARS.forEach(c => n[c.r] = (n[c.r] || 0) + 1);
-  return Object.keys(RARITY).map(r => `<li style="--c:${rc(r)}">${RARITY[r].label} · ${n[r]}</li>`).join("");
+  return Object.keys(RARITY_ORDER).map(r => `<li style="--c:${rc(r)}">${rarityLabel(r)} · ${n[r]}</li>`).join("");
 }
 function collectionHTML() {
-  const sorted = CHARS.slice().sort((a, b) => RARITY[b.r].order - RARITY[a.r].order || a.name.localeCompare(b.name));
+  const sorted = CHARS.slice().sort((a, b) => RARITY_ORDER[b.r] - RARITY_ORDER[a.r] || a.name.localeCompare(b.name));
   const cells = sorted.map(c => collection.has(c.id)
-    ? `<button class="mini-btn" id="mini-${c.id}" data-id="${c.id}" aria-label="${c.name}, ${RARITY[c.r].label}">${miniFace(c)}</button>`
-    : `<div class="locked" aria-label="Locked ${RARITY[c.r].label} card">${yantraSVG()}<span>${RARITY[c.r].label}</span></div>`).join("");
+    ? `<button class="mini-btn" id="mini-${c.id}" data-id="${c.id}" aria-label="${nm(c)}, ${rarityLabel(c.r)}">${miniFace(c)}</button>`
+    : `<div class="locked" aria-label="${T.locked(rarityLabel(c.r))}">${yantraSVG()}<span>${rarityLabel(c.r)}</span></div>`).join("");
   return `<section class="collection">
-    <div class="collection-head"><h3>Your collection</h3><span class="count"><b>${collection.size}</b> / ${CHARS.length} unlocked</span></div>
+    <div class="collection-head"><h3>${T.collection}</h3><span class="count"><b>${collection.size}</b> / ${CHARS.length} ${T.unlocked}</span></div>
     <div class="cbar"><span style="width:${(collection.size / CHARS.length) * 100}%"></span></div>
     <div class="grid">${cells}</div>
   </section>`;
@@ -474,18 +549,18 @@ function wireCollection() { app.querySelectorAll(".mini-btn").forEach(b => b.onc
 
 function renderIntro() {
   document.documentElement.style.setProperty("--frame", "var(--marigold)");
-  const words = "Which character walks with you?".split(" ").map((w, i) => `<span class="w${i === 1 ? " glow" : ""}" style="--i:${i}">${w}</span>`).join(" ");
+  const words = T.title.split(" ").map((w, i) => `<span class="w${i === T.titleGlow ? " glow" : ""}" style="--i:${i}">${w}</span>`).join(" ");
   const fan = [["ravana", "-118px", "-13deg", "0s"], ["krishna", "0px", "0deg", ".6s"], ["karna", "118px", "13deg", "1.2s"]]
     .map(([id, dx, rot, d]) => `<div class="fan-card" style="--dx:${dx};--rot:${rot};--d:${d}">${miniFace(byId[id])}</div>`).join("");
   app.innerHTML = `<section class="hero">
     <div class="hero-mandala" aria-hidden="true">${mandalaSVG()}</div>
-    <p class="eyebrow">इष्ट देवता · Ishta Devata</p>
+    <p class="eyebrow">${T.eyebrow}</p>
     <h1>${words}</h1>
-    <p class="lede">Gods, heroes, sages and asuras: ${CHARS.length} characters from the Puranas, the Ramayana and the Mahabharata, each with a light side and a shadow side. Answer ${QUESTIONS_PER_QUIZ} questions and draw the card that mirrors you right now.</p>
-    <div class="row"><button class="btn" id="start">Light the first lamp</button></div>
+    <p class="lede">${T.lede(CHARS.length)}</p>
+    <div class="row"><button class="btn" id="start">${T.start}</button></div>
     <ul class="rarity-key" aria-label="Cards by rarity">${rarityCounts()}</ul>
     <div class="fan" aria-hidden="true">${fan}</div>
-    <p class="meta">${QUESTIONS.length} questions in the bank. Each one you get depends on your earlier answers, so no two runs are the same.</p>
+    <p class="meta">${T.meta(QUESTIONS.length)}</p>
   </section>
   ${collectionHTML()}`;
   document.getElementById("start").onclick = start;
@@ -506,12 +581,12 @@ function nextQuestion() {
     `<button class="opt" data-o="${oi}" id="opt-${k}" style="--i:${k}"><span class="key">${"abcd"[k]}</span><span>${esc(q.a[oi][0])}</span></button>`).join("");
   app.innerHTML = `<section class="qwrap enter">
     ${diyas(state.step)}
-    <p class="progress-label"><span class="dev">प्रश्न ${devNum(state.step + 1)}</span>Question ${state.step + 1} of ${QUESTIONS_PER_QUIZ}</p>
+    <p class="progress-label">${LANG === "hi" ? `<span class="dev">${T.qLabel(devNum(state.step + 1), devNum(QUESTIONS_PER_QUIZ))}</span>` : `<span class="dev">प्रश्न ${devNum(state.step + 1)}</span>${T.qLabel(state.step + 1, QUESTIONS_PER_QUIZ)}`}</p>
     <div class="qpanel">
       <h2>${esc(q.q)}</h2>
       <div class="options">${opts}</div>
     </div>
-    <p class="hint">${lead ? `Two cards are glowing: a <b>${RARITY[lead[0].r].label}</b> and a <b>${RARITY[lead[1].r].label}</b>…` : "Answer honestly, not the way you'd like to be."}</p>
+    <p class="hint">${lead ? T.hintLead(rarityLabel(lead[0].r), rarityLabel(lead[1].r)) : T.hintStart}</p>
   </section>`;
   app.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(+b.dataset.o, b));
   app.querySelector(".opt").focus({ preventScroll: true });
@@ -535,11 +610,11 @@ async function renderResult() {
   const isNew = !collection.has(top.id);
   collection.add(top.id); saveCollection(collection);
   document.documentElement.style.setProperty("--frame", rc(top.r));
-  const bars = ranked.slice(0, 4).map(t => `<div class="bar" style="--c:${rc(t.c.r)}"><span>${t.c.name}</span>
+  const bars = ranked.slice(0, 4).map(t => `<div class="bar" style="--c:${rc(t.c.r)}"><span>${nm(t.c)}</span>
     <span class="track"><span class="fill" style="width:${matchPct(t.s)}%"></span></span><span class="pct">${matchPct(t.s)}%</span></div>`).join("");
   app.innerHTML = `<section class="result fadein">
     ${diyas(QUESTIONS_PER_QUIZ)}
-    <p class="eyebrow center reveal-label" id="reveal-label">All ${QUESTIONS_PER_QUIZ} lamps are lit. Your card is rising…</p>
+    <p class="eyebrow center reveal-label" id="reveal-label">${T.rising(LANG === "hi" ? devNum(QUESTIONS_PER_QUIZ) : QUESTIONS_PER_QUIZ)}</p>
     <div class="stage" id="stage">
       <div class="rays" aria-hidden="true"></div>
       <div class="flip" id="flip"><div class="flip-inner face-down" id="flip-inner">
@@ -550,9 +625,9 @@ async function renderResult() {
     <div class="after result">
       ${shareHTML(top)}
       ${storyHTML(top)}
-      <div class="mix"><h3>Close matches</h3>${bars}</div>
-      <div class="row"><button class="btn" id="again">Play again</button></div>
-      <p class="note">A reflection based on how these characters are told in the stories, not a religious judgement. Versions of every story differ by region and text, and every character, even the villains, carries a lesson.</p>
+      <div class="mix"><h3>${T.close}</h3>${bars}</div>
+      <div class="row"><button class="btn" id="again">${T.playAgain}</button></div>
+      <p class="note">${T.note}</p>
     </div>
   </section>
   ${collectionHTML()}`;
@@ -566,7 +641,7 @@ async function renderResult() {
     setTimeout(() => {
       const r = document.getElementById("stage").getBoundingClientRect();
       fx.burst(r.left + r.width / 2, r.top + Math.min(220, r.height / 3), RCOL[top.r]);
-      document.getElementById("reveal-label").textContent = isNew ? `New ${RARITY[top.r].label} card unlocked` : `You drew ${top.name} again`;
+      document.getElementById("reveal-label").textContent = isNew ? T.newCard(rarityLabel(top.r)) : T.again(nm(top));
     }, calm ? 0 : 380);
   };
   document.getElementById("stage").addEventListener("click", flip);
@@ -576,11 +651,11 @@ async function renderResult() {
 function renderCardOnly(c, fromLink) {
   document.documentElement.style.setProperty("--frame", rc(c.r));
   app.innerHTML = `<section class="result fadein">
-    ${fromLink ? `<p class="eyebrow center">A friend drew this card. Which one is yours?</p>` : ""}
+    ${fromLink ? `<p class="eyebrow center">${T.friend}</p>` : ""}
     <div class="stage"><div class="rays" aria-hidden="true"></div>
       <div class="flip" id="flip"><div class="flip-inner"><div class="front">${bigFace(c, null)}<div class="glare"></div></div></div></div>
     </div>
-    <div class="row"><button class="btn" id="again">${fromLink ? "Find my card" : "Play again"}</button><button class="btn ghost" id="home">Back to start</button></div>
+    <div class="row"><button class="btn" id="again">${fromLink ? T.findMine : T.playAgain}</button><button class="btn ghost" id="home">${T.home}</button></div>
     ${fromLink ? "" : shareHTML(c)}
     ${storyHTML(c)}
   </section>
@@ -595,46 +670,46 @@ function renderCardOnly(c, fromLink) {
 // ---------- Story and sharing ----------
 // The link people share. Change this if you host the quiz somewhere else.
 const SHARE_URL = "https://mrboora04.github.io/ishta-devata/";
-const cardLink = c => `${SHARE_URL}#card-${c.id}`;
-const shareText = c => `I got ${c.name} (${c.dev}), a ${RARITY[c.r].label} card: ${c.e}. Which character walks with you?`;
+const cardLink = c => `${SHARE_URL}${LANG === "hi" ? "?lang=hi" : ""}#card-${c.id}`;
+const shareText = c => T.shareText(c, rarityLabel(c.r));
 
 const storyCache = {};
 async function fillLore(c) {
   const el = document.getElementById("lore"); if (!el) return;
   try {
-    if (!storyCache[c.id]) storyCache[c.id] = await (await fetch(`data/stories/${c.id}.json`)).json();
+    if (!storyCache[c.id]) storyCache[c.id] = await (await fetch(`data/${LANG === "hi" ? "hi/" : ""}stories/${c.id}.json`)).json();
     if (document.getElementById("lore") === el) el.outerHTML = storyBody({ ...c, ...storyCache[c.id] });
-  } catch (e) { el.querySelector(".block p").textContent = "The story couldn't load. Check your connection and refresh."; }
+  } catch (e) { el.querySelector(".block p").textContent = T.storyFail; }
 }
 function storyHTML(c) {
-  return `<section class="lore" id="lore"><div class="lore-head"><h3>The story of ${c.name}</h3></div><div class="block wide story"><h4>The story</h4><p>Loading the story…</p></div></section>`;
+  return `<section class="lore" id="lore"><div class="lore-head"><h3>${T.storyOf(nm(c))}</h3></div><div class="block wide story"><h4>${T.story}</h4><p>${T.loadingStory}</p></div></section>`;
 }
 function storyBody(c) {
   return `<section class="lore">
-    <div class="lore-head"><h3>The story of ${c.name}</h3></div>
-    <div class="block wide story"><h4>The story</h4><p>${c.story}</p></div>
-    <div class="block" style="--k:var(--r-legendary)"><h4>What people believe</h4><p>${c.belief}</p></div>
-    <div class="block" style="--k:var(--kumkum)"><h4>Mistakes and turning points</h4><p>${c.turns}</p></div>
-    <div class="block wide" style="--k:var(--gold)"><h4>Did you know?</h4><ul class="facts">${c.facts.map(f => `<li>${f}</li>`).join("")}</ul></div>
+    <div class="lore-head"><h3>${T.storyOf(nm(c))}</h3></div>
+    <div class="block wide story"><h4>${T.story}</h4><p>${c.story}</p></div>
+    <div class="block" style="--k:var(--r-legendary)"><h4>${T.belief}</h4><p>${c.belief}</p></div>
+    <div class="block" style="--k:var(--kumkum)"><h4>${T.turns}</h4><p>${c.turns}</p></div>
+    <div class="block wide" style="--k:var(--gold)"><h4>${T.facts}</h4><ul class="facts">${c.facts.map(f => `<li>${f}</li>`).join("")}</ul></div>
   </section>`;
 }
 function shareHTML(c) {
   const t = encodeURIComponent(shareText(c)), u = encodeURIComponent(cardLink(c));
   return `<section class="share">
-    <h3>Share your card</h3>
+    <h3>${T.shareTitle}</h3>
     <div class="share-row">
       <a class="sbtn wa" href="https://wa.me/?text=${t}%20${u}" target="_blank" rel="noopener">WhatsApp</a>
       <a class="sbtn tg" href="https://t.me/share/url?url=${u}&text=${t}" target="_blank" rel="noopener">Telegram</a>
       <a class="sbtn" href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target="_blank" rel="noopener">X</a>
       <a class="sbtn" href="https://www.facebook.com/sharer/sharer.php?u=${u}" target="_blank" rel="noopener">Facebook</a>
-      <button class="sbtn" id="copy">Copy link</button>
-      <button class="sbtn" id="makeimg">Card image</button>
+      <button class="sbtn" id="copy">${T.copy}</button>
+      <button class="sbtn" id="makeimg">${T.cardImage}</button>
     </div>
     <p class="toast" id="toast" role="status"></p>
     <figure class="cardimg" id="cardimg" hidden>
-      <img id="cardimg-img" alt="${c.name} card image">
-      <figcaption>Long-press (phone) or right-click (computer) the image to save it, then post it to Instagram, WhatsApp status or anywhere else.</figcaption>
-      <button class="sbtn" id="cardimg-dl">Download image</button>
+      <img id="cardimg-img" alt="${nm(c)}">
+      <figcaption>${T.imgHelp}</figcaption>
+      <button class="sbtn" id="cardimg-dl">${T.download}</button>
     </figure>
   </section>`;
 }
@@ -643,10 +718,10 @@ function wireShare(c) {
   document.getElementById("copy").onclick = () => {
     const text = `${shareText(c)} ${cardLink(c)}`;
     const fallback = () => { toast.textContent = text; const r = document.createRange(); r.selectNodeContents(toast); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
-    try { navigator.clipboard.writeText(text).then(() => { toast.textContent = "Link copied. Paste it anywhere."; }, fallback); } catch (e) { fallback(); }
+    try { navigator.clipboard.writeText(text).then(() => { toast.textContent = T.copied; }, fallback); } catch (e) { fallback(); }
   };
   document.getElementById("makeimg").onclick = async () => {
-    toast.textContent = "Drawing your card…";
+    toast.textContent = T.drawing;
     const url = await drawCard(c);
     document.getElementById("cardimg-img").src = url;
     document.getElementById("cardimg-dl").onclick = () => saveImage(url, `${c.id}-card.png`, toast);
@@ -681,20 +756,20 @@ async function drawCard(c) {
   // medallion
   x.beginPath(); x.arc(W / 2, 360, 190, 0, 6.283); x.fillStyle = "#15112F"; x.fill(); x.lineWidth = 10; x.stroke();
   x.textAlign = "center"; x.textBaseline = "alphabetic";
-  x.fillStyle = frame; x.font = "700 34px Mukta, sans-serif"; x.fillText(`${"◆".repeat(RARITY[c.r].order)}  ${RARITY[c.r].label.toUpperCase()}  ·  ${c.f.toUpperCase()}`, W / 2, 128);
-  const gs = Math.max(70, 170 - Math.max(0, c.dev.length - 3) * 16);
-  x.fillStyle = "#F4EFFF"; x.shadowColor = frame; x.shadowBlur = 40; x.font = `700 ${gs}px Mukta, sans-serif`; x.fillText(c.dev, W / 2, 360 + gs * .35); x.shadowBlur = 0;
-  x.font = "108px 'Yatra One', Georgia, serif"; x.fillText(c.name, W / 2, 680);
+  x.fillStyle = frame; x.font = "700 34px Mukta, sans-serif"; x.fillText(`${"◆".repeat(RARITY_ORDER[c.r])}  ${rarityLabel(c.r).toUpperCase()}  ·  ${factionLabel(c.f).toUpperCase()}`, W / 2, 128);
+  const glyph = medalText(c), gs = LANG === "hi" ? 190 : Math.max(70, 170 - Math.max(0, c.dev.length - 3) * 16);
+  x.fillStyle = "#F4EFFF"; x.shadowColor = frame; x.shadowBlur = 40; x.font = `700 ${gs}px Mukta, sans-serif`; x.fillText(glyph, W / 2, 360 + gs * .35); x.shadowBlur = 0;
+  x.font = "108px 'Yatra One', Georgia, serif"; x.fillText(nm(c), W / 2, 680);
   x.fillStyle = "#B6AFD8"; x.font = "40px Mukta, sans-serif"; x.fillText(c.e, W / 2, 745);
   let y = 850;
-  for (const [label, text, col] of [["LIGHT", c.light, "#FFB938"], ["SHADOW", c.shadow, "#B970EA"]]) {
+  for (const [label, text, col] of [[T.light.toUpperCase(), c.light, "#FFB938"], [T.shadow.toUpperCase(), c.shadow, "#B970EA"]]) {
     x.fillStyle = col; x.font = "700 30px Mukta, sans-serif"; x.fillText(label, W / 2, y); y += 50;
     x.fillStyle = "#F4EFFF"; x.font = "37px Mukta, sans-serif";
     for (const l of wrapLines(x, text, W - 220).slice(0, 2)) { x.fillText(l, W / 2, y); y += 48; }
     y += 34;
   }
-  x.fillStyle = frame; x.font = "44px 'Yatra One', Georgia, serif"; x.fillText("Which character walks with you?", W / 2, H - 140);
-  x.fillStyle = "#B6AFD8"; x.font = "30px Mukta, sans-serif"; x.fillText("इष्ट देवता · Find Your Ishta Devata", W / 2, H - 92);
+  x.fillStyle = frame; x.font = "44px 'Yatra One', Georgia, serif"; x.fillText(T.imgTagline, W / 2, H - 140);
+  x.fillStyle = "#B6AFD8"; x.font = "30px Mukta, sans-serif"; x.fillText(T.imgFooter, W / 2, H - 92);
   return cv.toDataURL("image/png");
 }
 
@@ -704,14 +779,32 @@ function route() {
   if (m && byId[m[1]]) renderCardOnly(byId[m[1]], true); else renderIntro();
 }
 async function boot() {
+  const get = u => fetch(u).then(r => { if (!r.ok) throw new Error(u); return r.json(); });
   try {
-    [CHARS, QUESTIONS] = await Promise.all(["data/characters.json", "data/questions.json"].map(u => fetch(u).then(r => r.json())));
-  } catch (e) { app.innerHTML = '<p class="center lede">The quiz couldn\'t load. Check your connection and refresh the page.</p>'; return; }
+    const files = ["data/characters.json", "data/questions.json"];
+    if (LANG === "hi") files.push("data/hi/characters.json", "data/hi/questions.json");
+    const [chars, qs, hiChars, hiQs] = await Promise.all(files.map(get));
+    CHARS = chars; QUESTIONS = qs;
+    if (hiChars) CHARS.forEach(c => Object.assign(c, hiChars[c.id] || {}));
+    if (hiQs) QUESTIONS.forEach((q, i) => { if (!hiQs[i]) return; q.q = hiQs[i].q; q.a = q.a.map((o, k) => [hiQs[i].a[k] || o[0], o[1]]); });
+  } catch (e) { app.innerHTML = `<p class="center lede">${T.loadFail}</p>`; return; }
   prepare();
   byId = Object.fromEntries(CHARS.map(c => [c.id, c]));
   window.addEventListener("hashchange", route);
   route();
 }
+function langSwitch() {
+  document.documentElement.lang = LANG;
+  if (LANG === "hi") document.title = "अपना इष्ट देवता खोजें";
+  const other = LANG === "hi" ? "en" : "hi";
+  const a = document.createElement("a");
+  a.className = "lang-toggle"; a.textContent = T.switchTo; a.setAttribute("aria-label", T.switchLabel);
+  a.href = `?lang=${other}${location.hash}`;
+  a.addEventListener("click", () => { try { localStorage.setItem("ishta-lang", other); } catch (e) {} });
+  window.addEventListener("hashchange", () => { a.href = `?lang=${other}${location.hash}`; });
+  document.body.appendChild(a);
+}
+langSwitch();
 boot();
 }
 </script>

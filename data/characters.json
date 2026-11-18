@@ -327,8 +327,8 @@
    1,
    1,
    1,
-   -1,
-   0,
+   -2,
+   1,
    -1
   ],
   "light": "Utterly reliable. You show up every day without fail.",
@@ -492,11 +492,11 @@
   "p": [
    2,
    1,
-   1,
    2,
-   0,
    1,
-   0,
+   1,
+   1,
+   1,
    0
   ],
   "light": "Focus, talent, and the humility to ask for guidance.",
@@ -537,7 +537,7 @@
    1,
    1,
    1,
-   1,
+   2,
    -2,
    -2
   ],
@@ -995,12 +995,12 @@
   "e": "Compiler of the Vedas and the Mahabharata",
   "p": [
    0,
-   0,
+   1,
    2,
    -1,
-   -1,
-   1,
    0,
+   -1,
+   -1,
    1
   ],
   "light": "You see the whole story and record it truthfully.",
@@ -1027,5 +1027,131 @@
   "light": "Spiritual power and zero tolerance for disrespect.",
   "shadow": "One careless word from someone and you curse them for life.",
   "lesson": "Power without patience wounds more than it teaches."
+ },
+ {
+  "id": "parashurama",
+  "name": "Parashurama",
+  "dev": "परशुराम",
+  "f": "Avatar",
+  "r": "legendary",
+  "e": "The warrior-sage with the axe",
+  "p": [
+   2,
+   2,
+   0,
+   2,
+   1,
+   0,
+   -2,
+   -1
+  ],
+  "light": "Unstoppable force in the service of justice.",
+  "shadow": "Your anger can outlast its cause; he wiped out the warrior kings twenty-one times.",
+  "lesson": "Even righteous anger must know when to lay down the axe."
+ },
+ {
+  "id": "ashwatthama",
+  "name": "Ashwatthama",
+  "dev": "अश्वत्थामा",
+  "f": "Mahabharata",
+  "r": "epic",
+  "e": "The son who could not let go",
+  "p": [
+   0,
+   -2,
+   1,
+   2,
+   2,
+   2,
+   -1,
+   1
+  ],
+  "light": "Fierce love for your father and loyalty to your side.",
+  "shadow": "Grief that turns into revenge without limits.",
+  "lesson": "Revenge carried out in the dark follows you forever."
+ },
+ {
+  "id": "shikhandi",
+  "name": "Shikhandi",
+  "dev": "शिखंडी",
+  "f": "Mahabharata",
+  "r": "rare",
+  "e": "Reborn to bring down Bhishma",
+  "p": [
+   1,
+   1,
+   0,
+   1,
+   0,
+   -2,
+   -2,
+   1
+  ],
+  "light": "Unbreakable purpose; you came back to finish what you started.",
+  "shadow": "One grievance can become your whole identity.",
+  "lesson": "Who you are is not decided by how others see you."
+ },
+ {
+  "id": "savitri",
+  "name": "Savitri",
+  "dev": "सावित्री",
+  "f": "Mahabharata",
+  "r": "epic",
+  "e": "The wife who argued with Death",
+  "p": [
+   1,
+   2,
+   2,
+   0,
+   -1,
+   2,
+   -1,
+   1
+  ],
+  "light": "Love clever and fearless enough to argue with death.",
+  "shadow": "You take on fights others would call impossible.",
+  "lesson": "Wisdom and persistence can change what seems fated."
+ },
+ {
+  "id": "nachiketa",
+  "name": "Nachiketa",
+  "dev": "नचिकेता",
+  "f": "Upanishad",
+  "r": "epic",
+  "e": "The boy who questioned Death",
+  "p": [
+   1,
+   2,
+   2,
+   1,
+   -1,
+   -2,
+   -2,
+   -1
+  ],
+  "light": "Fearless curiosity that won't settle for less than the truth.",
+  "shadow": "Your bluntness can provoke even those who love you.",
+  "lesson": "Choose what is good over what is merely pleasant."
+ },
+ {
+  "id": "jatayu",
+  "name": "Jatayu",
+  "dev": "जटायु",
+  "f": "Ramayana",
+  "r": "rare",
+  "e": "The old vulture king",
+  "p": [
+   1,
+   2,
+   0,
+   2,
+   -2,
+   1,
+   -1,
+   -2
+  ],
+  "light": "The courage to stand up to evil, even knowing you'll lose.",
+  "shadow": "You fight battles you cannot win.",
+  "lesson": "Doing the right thing matters even when it costs everything."
  }
 ]

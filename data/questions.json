@@ -1513,5 +1513,344 @@
     }
    ]
   ]
+ },
+ {
+  "q": "Death comes for someone you love. You…",
+  "a": [
+   [
+    "Follow it and argue, whatever it takes",
+    {
+     "bond": 2,
+     "jna": 1,
+     "cun": 1
+    }
+   ],
+   [
+    "Accept it. Everything that is born must end",
+    {
+     "bond": -2,
+     "jna": 1
+    }
+   ],
+   [
+    "Hunt down whoever caused it",
+    {
+     "fie": 2,
+     "ego": 1,
+     "dha": -1
+    }
+   ],
+   [
+    "Pray for strength and carry on with my duty",
+    {
+     "dev": 1,
+     "dha": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You're offered every pleasure in the world if you stop asking one question. You…",
+  "a": [
+   [
+    "Keep asking. The truth is worth more",
+    {
+     "jna": 2,
+     "joy": -2
+    }
+   ],
+   [
+    "Take the pleasures",
+    {
+     "joy": 2,
+     "ego": 1
+    }
+   ],
+   [
+    "Take them and share them with everyone",
+    {
+     "joy": 1,
+     "bond": 1,
+     "ego": -1
+    }
+   ],
+   [
+    "Bargain for both",
+    {
+     "cun": 2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Your parent asks you to do something terrible. You…",
+  "a": [
+   [
+    "Obey. A parent's word is law",
+    {
+     "dha": 2,
+     "dev": 1,
+     "jna": -1
+    }
+   ],
+   [
+    "Refuse to their face",
+    {
+     "dev": 1,
+     "fie": 1,
+     "bond": -1
+    }
+   ],
+   [
+    "Obey, then find a way to undo the harm",
+    {
+     "cun": 2,
+     "dha": 1
+    }
+   ],
+   [
+    "Quietly leave home",
+    {
+     "bond": -2,
+     "fie": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "People keep telling you who you are. You…",
+  "a": [
+   [
+    "Become exactly who I choose to be",
+    {
+     "ego": 1,
+     "fie": 1,
+     "dha": -1
+    }
+   ],
+   [
+    "Believe them, honestly",
+    {
+     "ego": -1,
+     "bond": 1
+    }
+   ],
+   [
+    "Ignore them. I already know",
+    {
+     "ego": 2
+    }
+   ],
+   [
+    "Laugh. Labels don't matter",
+    {
+     "joy": 1,
+     "bond": -1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "You see someone powerful hurting someone weaker. You're old and tired. You…",
+  "a": [
+   [
+    "Fight anyway",
+    {
+     "fie": 2,
+     "dha": 1,
+     "ego": -1
+    }
+   ],
+   [
+    "Run and find help",
+    {
+     "cun": 1,
+     "bond": 1
+    }
+   ],
+   [
+    "Remember everything and speak up later",
+    {
+     "jna": 1,
+     "dha": 1,
+     "fie": -1
+    }
+   ],
+   [
+    "It's not my fight",
+    {
+     "bond": -2,
+     "ego": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What do you do with a grudge?",
+  "a": [
+   [
+    "Feed it until it becomes my purpose",
+    {
+     "fie": 1,
+     "ego": 1,
+     "bond": 1,
+     "cun": 1
+    }
+   ],
+   [
+    "Let it go as soon as I can",
+    {
+     "ego": -2,
+     "fie": -1
+    }
+   ],
+   [
+    "Turn it into fuel to do better",
+    {
+     "fie": 1,
+     "dha": 1
+    }
+   ],
+   [
+    "Act on it at once, then forget it",
+    {
+     "fie": 2,
+     "cun": -2
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What happens after death?",
+  "a": [
+   [
+    "We're reborn according to our karma",
+    {
+     "dha": 2,
+     "jna": 1
+    }
+   ],
+   [
+    "We go back to the divine we loved",
+    {
+     "dev": 2,
+     "bond": 1
+    }
+   ],
+   [
+    "The self never dies; only the body does",
+    {
+     "jna": 2,
+     "bond": -1
+    }
+   ],
+   [
+    "I'd rather focus on this life",
+    {
+     "joy": 2,
+     "ego": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "A rule says you can't learn something because of who you are. You…",
+  "a": [
+   [
+    "Learn it anyway, in secret",
+    {
+     "ego": 1,
+     "cun": 1,
+     "dha": -1
+    }
+   ],
+   [
+    "Lie my way in",
+    {
+     "cun": 2,
+     "dha": -2
+    }
+   ],
+   [
+    "Accept the rule",
+    {
+     "dha": 2,
+     "ego": -2
+    }
+   ],
+   [
+    "Fight to change the rule",
+    {
+     "fie": 2,
+     "dha": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "Which would you carry into battle?",
+  "a": [
+   [
+    "A bow",
+    {
+     "fie": 1,
+     "jna": 1
+    }
+   ],
+   [
+    "A mace",
+    {
+     "fie": 2,
+     "jna": -1
+    }
+   ],
+   [
+    "A veena",
+    {
+     "joy": 2,
+     "dev": 1
+    }
+   ],
+   [
+    "Only my words",
+    {
+     "jna": 2,
+     "cun": 1
+    }
+   ]
+  ]
+ },
+ {
+  "q": "What could you never forgive?",
+  "a": [
+   [
+    "Betrayal by family",
+    {
+     "bond": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Disrespect",
+    {
+     "ego": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Cruelty to the helpless",
+    {
+     "dha": 2,
+     "fie": 1
+    }
+   ],
+   [
+    "Nothing. I can forgive anything",
+    {
+     "ego": -2,
+     "dev": 1
+    }
+   ]
+  ]
  }
 ]
