@@ -67,6 +67,30 @@ p { margin: 0; }
 .link-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
 .mini-locked { opacity: .35; filter: grayscale(.85); }
 .why { display: grid; gap: 14px; }
+.cmp { display: grid; gap: 7px; margin-top: 4px; }
+.cmp-legend { display: flex; gap: 16px; font-size: 0.82rem; color: var(--muted); }
+.lg::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.lg.them::before { background: var(--c); } .lg.me::before { background: var(--ink); }
+.cmp-row { display: grid; grid-template-columns: 6.4rem 1fr; gap: 10px; align-items: center; font-size: 0.85rem; color: var(--muted); }
+.cmp-bars { display: grid; gap: 3px; }
+.cmp .fill.them { background: var(--c); } .cmp .fill.me { background: var(--ink); opacity: .85; }
+.more-btn { align-self: flex-start; margin-top: 6px; }
+.more-wrap { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.more-wrap[hidden] { display: none; }
+@media (max-width: 560px) { .more-wrap { grid-template-columns: 1fr; } }
+.link-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px 5px 6px; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--c) 60%, transparent); background: color-mix(in srgb, var(--c) 12%, transparent); }
+.chip svg { width: 22px; height: 22px; color: var(--c); stroke-width: 6; }
+.chip:hover { background: color-mix(in srgb, var(--c) 24%, transparent); }
+.chip:focus-visible, details.draw summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.draws { display: grid; gap: 12px; }
+details.draw summary { cursor: pointer; list-style-position: inside; }
+details.draw[open] { gap: 10px; }
+.qa { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; }
+.qa li { display: grid; gap: 2px; }
+.qa .q { color: var(--muted); font-size: 0.9rem; }
+.qa .a { font-weight: 500; }
 .near-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 480px) { .near-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .near { display: flex; flex-direction: column; gap: 6px; text-align: center; }
@@ -169,6 +193,14 @@ p { margin: 0; }
 .glare { position: absolute; inset: 0; border-radius: 22px; pointer-events: none; z-index: 3;
   background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255,255,255,.16), transparent 45%); }
 
+/* Lotus progress */
+.lotusbar { display: flex; justify-content: center; }
+.lotusbar svg { width: 84px; height: 84px; overflow: visible; }
+.petal { fill: rgba(255,255,255,.06); stroke: rgba(255,214,150,.35); stroke-width: 1.4; transition: fill .4s ease; }
+.petal.open { fill: color-mix(in srgb, var(--marigold) 75%, var(--kumkum)); stroke: var(--gold); filter: drop-shadow(0 0 5px rgba(255,138,31,.6)); }
+.petal.now { fill: rgba(255,185,56,.25); stroke: var(--marigold); }
+.seed { fill: rgba(255,255,255,.12); }
+.seed.open { fill: var(--gold); }
 /* Diyas */
 .diyas { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
 .diya { width: 28px; height: 34px; overflow: visible; }
@@ -256,6 +288,8 @@ p { margin: 0; }
   .face.champion::before, .face.legendary::before { animation: foil 4s ease-in-out infinite; }
   .rays { animation: medal 30s linear infinite; }
   .diya.lit .flame { animation: flicker 1.4s ease-in-out infinite alternate; }
+  .petal.now { animation: breathe 1.6s ease-in-out infinite alternate; transform-box: fill-box; }
+  @keyframes breathe { from { opacity: .55; } to { opacity: 1; } }
   .diya.now .flame { animation: flicker .9s ease-in-out infinite alternate; }
   .enter { animation: slideIn .45s cubic-bezier(.2,.8,.2,1) both; }
   .leave { animation: slideOut .3s ease-in forwards; }
@@ -310,13 +344,13 @@ const STRINGS = {
     eyebrow: "इष्ट देवता · Ishta Devata",
     title: "Which character walks with you?", titleGlow: 1,
     lede: n => `Gods, heroes, sages and asuras: ${n} characters from the Puranas, the Ramayana, the Mahabharata and the Upanishads, each with a light side and a shadow side. Answer ${QUESTIONS_PER_QUIZ} questions and draw the card that mirrors you right now.`,
-    start: "Light the first lamp",
+    start: "Begin",
     meta: n => `${n} questions in the bank. The questions adapt to your answers, so each run can take a different path.`,
     collection: "Your collection", unlocked: "unlocked", locked: r => `Locked ${r} card`,
     qLabel: (i, n) => `Question ${i} of ${n}`,
     hintStart: "Answer honestly, not the way you'd like to be.",
     hintLead: (a, b) => `Two cards are glowing: ${art(a)} <b>${a}</b> and ${art(b)} <b>${b}</b>…`,
-    rising: n => `All ${n} lamps are lit. Your card is rising…`,
+    rising: n => `All ${n} petals are open. Your card is rising…`,
     newCard: r => `New ${r} card unlocked`, again: name => `You drew ${name} again`,
     match: p => `${p}% match`, light: "Light", shadow: "Shadow", lesson: "Lesson", qualities: "Character qualities",
     shareTitle: "Share your card", copy: "Copy link", cardImage: "Card image", download: "Download image",
@@ -332,6 +366,9 @@ const STRINGS = {
     loadFail: "The quiz couldn't load. Check your connection and refresh the page.",
     imgTagline: "Which character walks with you?", imgFooter: "इष्ट देवता · Find Your Ishta Devata",
     back: "← Back", quit: "Quit",
+    seeMore: "See more", seeLess: "See less", lessons: "Lessons for today", moreFacts: "More facts", links: "Appears in the story with",
+    youVs: name => `You and ${name}`, you: "You", draws: "Your draws", drawnOn: (d, p) => `${d} · ${p}% match`, answers: "Your answers",
+    noDraws: "You haven't drawn this card yourself yet.",
     lockedHint: "Dim cards are ones you haven't drawn yet. Play again to find them.",
     saved: "Image saved to your downloads.",
     shareQuiz: "Share the quiz", quizText: "Which character from the Ramayana and Mahabharata walks with you? 8 questions, 55 cards:",
@@ -352,13 +389,13 @@ const STRINGS = {
     eyebrow: "इष्ट देवता",
     title: "कौन-सा पात्र आपके साथ चलता है?", titleGlow: 0,
     lede: n => `देव, वीर, ऋषि और असुर: पुराणों, रामायण, महाभारत और उपनिषदों के ${n} पात्र, हर एक का प्रकाश भी है और छाया भी। ${QUESTIONS_PER_QUIZ} सवालों के जवाब दें और वह कार्ड पाएँ जो इस समय आपका आईना है।`,
-    start: "पहला दीया जलाएँ",
+    start: "शुरू करें",
     meta: n => `सवालों के भंडार में ${n} सवाल हैं। सवाल आपके जवाबों के हिसाब से बदलते हैं, इसलिए हर बार रास्ता अलग हो सकता है।`,
     collection: "आपका संग्रह", unlocked: "खुले", locked: r => `बंद ${r} कार्ड`,
     qLabel: (i, n) => `प्रश्न ${i} / ${n}`,
     hintStart: "ईमानदारी से जवाब दें, वैसे नहीं जैसा आप बनना चाहते हैं।",
     hintLead: (a, b) => `दो कार्ड चमक रहे हैं: एक <b>${a}</b> और एक <b>${b}</b>…`,
-    rising: n => `${n} के ${n} दीये जल गए। आपका कार्ड उभर रहा है…`,
+    rising: n => `${n} की ${n} पंखुड़ियाँ खिल गईं। आपका कार्ड उभर रहा है…`,
     newCard: r => `नया ${r} कार्ड खुला`, again: name => `आपको फिर से ${name} मिले`,
     match: p => `${p}% मेल`, light: "प्रकाश", shadow: "छाया", lesson: "सीख", qualities: "पात्र के गुण",
     shareTitle: "अपना कार्ड शेयर करें", copy: "लिंक कॉपी करें", cardImage: "कार्ड की तस्वीर", download: "तस्वीर डाउनलोड करें",
@@ -374,6 +411,9 @@ const STRINGS = {
     loadFail: "क्विज़ लोड नहीं हो सका। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
     imgTagline: "कौन-सा पात्र आपके साथ चलता है?", imgFooter: "इष्ट देवता · अपना इष्ट देवता खोजें",
     back: "← पीछे", quit: "छोड़ें",
+    seeMore: "और देखें", seeLess: "कम देखें", lessons: "आज के लिए सीख", moreFacts: "और तथ्य", links: "कथा में साथ आने वाले पात्र",
+    youVs: name => `आप और ${name}`, you: "आप", draws: "आपको यह कार्ड कब-कब मिला", drawnOn: (d, p) => `${d} · ${p}% मेल`, answers: "आपके जवाब",
+    noDraws: "यह कार्ड अभी तक आपको ख़ुद नहीं मिला है।",
     lockedHint: "धुँधले कार्ड वे हैं जो अभी तक नहीं मिले। उन्हें पाने के लिए फिर से खेलें।",
     saved: "तस्वीर आपके डाउनलोड में सेव हो गई।",
     shareQuiz: "क्विज़ शेयर करें", quizText: "रामायण और महाभारत का कौन-सा पात्र आपके साथ चलता है? 8 सवाल, 55 कार्ड:",
@@ -448,6 +488,9 @@ const matchPct = s => Math.round(50 + 50 * s);
 // ---------- Collection (kept in this browser only) ----------
 const STORE_KEY = "ishta-collection-v2";
 function loadCollection() { try { return new Set(JSON.parse(localStorage.getItem(STORE_KEY) || "[]")); } catch (e) { return new Set(); } }
+const DRAWS_KEY = "ishta-draws-v1";
+function loadDraws() { try { return JSON.parse(localStorage.getItem(DRAWS_KEY) || "{}"); } catch (e) { return {}; } }
+function saveDraw(id, draw) { try { const all = loadDraws(); all[id] = [draw, ...(all[id] || [])].slice(0, 5); localStorage.setItem(DRAWS_KEY, JSON.stringify(all)); } catch (e) {} }
 function saveCollection(set) { try { localStorage.setItem(STORE_KEY, JSON.stringify([...set])); } catch (e) {} }
 
 // ---------- UI ----------
@@ -481,13 +524,14 @@ function yantraSVG() {
   return `<svg viewBox="-50 -50 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1">
     <circle r="36"/><polygon points="0,-32 27.7,16 -27.7,16"/><polygon points="0,32 27.7,-16 -27.7,-16"/>${petals}</svg>`;
 }
+// Progress: a lotus that opens one petal per answer.
 function diyas(step) {
-  let out = "";
+  let petals = "";
   for (let i = 0; i < QUESTIONS_PER_QUIZ; i++) {
-    const cls = i < step ? "lit" : i === step ? "now" : "";
-    out += `<svg class="diya ${cls}" viewBox="0 0 30 34" aria-hidden="true"><path class="flame" d="M15 2 C 19 9, 20 13, 15 18 C 10 13, 11 9, 15 2 Z"/><path class="bowl" d="M2 22 H28 C 27 29, 21 32, 15 32 C 9 32, 3 29, 2 22 Z"/></svg>`;
+    const cls = i < step ? "open" : i === step ? "now" : "";
+    petals += `<path class="petal ${cls}" transform="rotate(${i * 360 / QUESTIONS_PER_QUIZ} 50 50)" d="M50 46C42 36 42 20 50 6C58 20 58 36 50 46Z"/>`;
   }
-  return `<div class="diyas">${out}</div>`;
+  return `<div class="lotusbar"><svg viewBox="0 0 100 100" aria-hidden="true">${petals}<circle class="seed ${step >= QUESTIONS_PER_QUIZ ? "open" : ""}" cx="50" cy="50" r="7"/></svg></div>`;
 }
 
 // ---------- Symbols ----------
@@ -612,7 +656,6 @@ const firstAkshara = w => { try { return [...new Intl.Segmenter("hi", { granular
 const medalText = c => (LANG === "hi" ? firstAkshara(c.dev) : c.dev);
 const glyphSize = c => (LANG === "hi" ? "4.2rem" : `${Math.max(1.5, 3.4 - Math.max(0, c.dev.length - 3) * 0.28).toFixed(2)}rem`);
 function bigFace(c, pct) {
-  const stats = AXES.map((k, i) => `<div class="stat"><span>${T.axis[k]}</span><span class="track"><span class="fill" style="width:${((c.p[i] + 2) / 4) * 100}%"></span></span></div>`).join("");
   return `<article class="face big ${c.r}" style="--c:${rc(c.r)}">
     <div class="face-top"><span class="badge rar">${rarityLabel(c.r)}</span><span class="stars" aria-hidden="true">${"◆".repeat(RARITY_ORDER[c.r])}</span><span class="badge fac">${factionLabel(c.f)}</span></div>
     <div class="medal"><div class="medal-in">${yantraSVG()}${symbolSVG(c.id)}</div></div>
@@ -625,7 +668,6 @@ function bigFace(c, pct) {
       <div style="--k:var(--r-epic)"><b>${T.shadow}</b>${c.shadow}</div>
       <div style="--k:var(--r-legendary)"><b>${T.lesson}</b>${c.lesson}</div>
     </div>
-    <div class="stats" aria-label="${T.qualities}">${stats}</div>
   </article>`;
 }
 function miniFace(c) {
@@ -774,7 +816,7 @@ async function answer(oi, btn) {
   if (state.busy) return; state.busy = true;
   app.querySelectorAll(".opt").forEach(b => b.classList.add(b === btn ? "chosen" : "dim"));
   const e = QUESTIONS[state.current].v[oi];
-  state.hist.push({ U: state.U.slice(), qi: state.current, order: state.order });
+  state.hist.push({ U: state.U.slice(), qi: state.current, order: state.order, oi });
   state.U = state.U.map((v, i) => v + e[i]);
   state.asked.add(state.current);
   state.step++;
@@ -784,6 +826,15 @@ async function answer(oi, btn) {
   if (state.step < QUESTIONS_PER_QUIZ) nextQuestion(); else renderResult();
 }
 
+// The player's leanings on the same -2..2 scale as a character's profile.
+const youScale = U => { const m = U.reduce((a, b) => a + b, 0) / AXES.length, d = U.map(v => v - m), mx = Math.max(...d.map(Math.abs)) || 1; return d.map(v => (v / mx) * 2); };
+function compareHTML(c, U) {
+  const y = youScale(U);
+  const rows = AXES.map((k, i) => `<div class="cmp-row"><span class="cmp-k">${T.axis[k]}</span>
+    <span class="cmp-bars"><span class="track"><span class="fill them" style="width:${((c.p[i] + 2) / 4) * 100}%"></span></span>
+    <span class="track"><span class="fill me" style="width:${((y[i] + 2) / 4) * 100}%"></span></span></span></div>`).join("");
+  return `<div class="cmp" style="--c:${rc(c.r)}"><div class="cmp-legend"><span class="lg them">${nm(c)}</span><span class="lg me">${T.you}</span></div>${rows}</div>`;
+}
 // Explains the result in plain words: the player's strongest leanings, and their closest deity when the card isn't one.
 function whyHTML(top, ranked) {
   const mean = state.U.reduce((a, b) => a + b, 0) / AXES.length;
@@ -797,7 +848,8 @@ function whyHTML(top, ranked) {
       <div><button class="sbtn" id="see-ishta" data-id="${god.c.id}">${T.seeCard(nm(god.c))}</button></div></div>`;
   }
   return `<section class="why">
-    <div class="block" style="--k:var(--r-legendary)"><h4>${T.whyTitle}</h4><p>${T.why(up, down, nm(top))}</p></div>
+    <div class="block" style="--k:var(--r-legendary)"><h4>${T.whyTitle}</h4><p>${T.why(up, down, nm(top))}</p>
+      <h4 style="--k:var(--marigold)">${T.youVs(nm(top))}</h4>${compareHTML(top, state.U)}</div>
     ${ishta}
   </section>`;
 }
@@ -806,6 +858,7 @@ async function renderResult() {
   const top = ranked[0].c;
   const isNew = !collection.has(top.id);
   collection.add(top.id); saveCollection(collection);
+  saveDraw(top.id, { t: Date.now(), pct: matchPct(ranked[0].s), U: state.U, qa: state.hist.map(h => [h.qi, h.oi]) });
   document.documentElement.style.setProperty("--frame", rc(top.r));
   // The next closest characters, as tappable cards with their match.
   const near = ranked.slice(1, 5).map(t => `<button class="mini-btn near" data-id="${t.c.id}" aria-label="${nm(t.c)}, ${T.match(matchPct(t.s))}">${miniFace(t.c)}<span class="near-pct">${T.match(matchPct(t.s))}</span></button>`).join("");
@@ -849,6 +902,15 @@ async function renderResult() {
   await wait(1100); flip();
 }
 
+function drawsHTML(c) {
+  const list = loadDraws()[c.id] || [];
+  if (!list.length) return `<section class="draws"><h3>${T.draws}</h3><p class="meta">${T.noDraws}</p></section>`;
+  const fmt = t => new Date(t).toLocaleString(LANG === "hi" ? "hi-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" });
+  const items = list.map((d, i) => `<details class="block draw" ${i === 0 ? "open" : ""}><summary><b>${T.drawnOn(fmt(d.t), d.pct)}</b></summary>
+    <h4 style="--k:var(--marigold)">${T.youVs(nm(c))}</h4>${compareHTML(c, d.U)}
+    <h4>${T.answers}</h4><ol class="qa">${d.qa.filter(([qi]) => QUESTIONS[qi]).map(([qi, oi]) => `<li><span class="q">${esc(QUESTIONS[qi].q)}</span><span class="a">${esc(QUESTIONS[qi].a[oi][0])}</span></li>`).join("")}</ol></details>`).join("");
+  return `<section class="draws"><h3>${T.draws}</h3>${items}</section>`;
+}
 function renderCardOnly(c, fromLink) {
   document.documentElement.style.setProperty("--frame", rc(c.r));
   app.innerHTML = `<section class="result fadein">
@@ -859,6 +921,7 @@ function renderCardOnly(c, fromLink) {
     <div class="row"><button class="btn" id="again">${fromLink ? T.findMine : T.playAgain}</button><button class="btn ghost" id="home">${T.home}</button></div>
     ${fromLink ? "" : shareHTML(c)}
     ${storyHTML(c)}
+    ${fromLink ? "" : drawsHTML(c)}
   </section>
   ${collectionHTML()}`;
   document.getElementById("again").onclick = start;
@@ -884,19 +947,30 @@ async function fillLore(c) {
   const el = document.getElementById("lore"); if (!el) return;
   try {
     if (!storyCache[c.id]) storyCache[c.id] = await (await fetch(`data/${LANG === "hi" ? "hi/" : ""}stories/${c.id}.json`)).json();
-    if (document.getElementById("lore") === el) el.outerHTML = storyBody({ ...c, ...storyCache[c.id] });
+    if (document.getElementById("lore") === el) { el.outerHTML = storyBody({ ...c, ...storyCache[c.id] }); wireLore(); }
   } catch (e) { el.querySelector(".block p").textContent = T.storyFail; }
 }
 function storyHTML(c) {
   return `<section class="lore" id="lore"><div class="lore-head"><h3>${T.storyOf(nm(c))}</h3></div><div class="block wide story"><h4>${T.story}</h4><p>${T.loadingStory}</p></div></section>`;
 }
+function wireLore() {
+  const btn = app.querySelector("[data-more]"), wrap = app.querySelector(".more-wrap");
+  if (btn && wrap) btn.onclick = () => { const open = wrap.hidden; wrap.hidden = !open; btn.textContent = open ? T.seeLess : T.seeMore; btn.setAttribute("aria-expanded", String(open)); };
+  app.querySelectorAll(".chip[data-id]").forEach(b => b.onclick = () => renderCardOnly(byId[b.dataset.id], false));
+}
 function storyBody(c) {
-  return `<section class="lore">
+  return `<section class="lore" id="lore-full">
     <div class="lore-head"><h3>${T.storyOf(nm(c))}</h3></div>
     <div class="block wide story"><h4>${T.story}</h4><p>${c.story}</p></div>
     <div class="block" style="--k:var(--r-legendary)"><h4>${T.belief}</h4><p>${c.belief}</p></div>
     <div class="block" style="--k:var(--kumkum)"><h4>${T.turns}</h4><p>${c.turns}</p></div>
-    <div class="block wide" style="--k:var(--gold)"><h4>${T.facts}</h4><ul class="facts">${c.facts.map(f => `<li>${f}</li>`).join("")}</ul></div>
+    <div class="block wide" style="--k:var(--gold)"><h4>${T.facts}</h4><ul class="facts">${c.facts.map(f => `<li>${f}</li>`).join("")}</ul>
+      ${c.lessons ? `<button class="sbtn more-btn" aria-expanded="false" data-more>${T.seeMore}</button>` : ""}</div>
+    ${c.lessons ? `<div class="more-wrap wide" hidden>
+      <div class="block" style="--k:var(--r-legendary)"><h4>${T.lessons}</h4><ul class="facts">${c.lessons.map(f => `<li>${f}</li>`).join("")}</ul></div>
+      <div class="block" style="--k:var(--gold)"><h4>${T.moreFacts}</h4><ul class="facts">${c.more.map(f => `<li>${f}</li>`).join("")}</ul></div>
+      ${c.links && c.links.length ? `<div class="block wide" style="--k:var(--r-epic)"><h4>${T.links}</h4><div class="link-chips">${c.links.filter(id => byId[id]).map(id => `<button class="chip" data-id="${id}" style="--c:${rc(byId[id].r)}">${symbolSVG(id)}${nm(byId[id])}</button>`).join("")}</div></div>` : ""}
+    </div>` : ""}
   </section>`;
 }
 function shareHTML(c) {
