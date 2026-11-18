@@ -67,6 +67,10 @@ p { margin: 0; }
 .link-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
 .mini-locked { opacity: .35; filter: grayscale(.85); }
 .why { display: grid; gap: 14px; }
+.near-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 480px) { .near-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.near { display: flex; flex-direction: column; gap: 6px; text-align: center; }
+.near-pct { font-size: 0.85rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
 .why p { max-width: 62ch; }
 .quiz-share { align-items: center; }
 .lang-toggle { position: absolute; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
@@ -318,7 +322,8 @@ const STRINGS = {
     shareText: (c, r) => `I got ${c.name} (${c.dev}), ${art(r)} ${r} card: ${c.e}. Which character walks with you?`,
     storyOf: name => `The story of ${name}`, story: "The story", belief: "What people believe", turns: "Mistakes and turning points", facts: "Did you know?",
     loadingStory: "Loading the story…", storyFail: "The story couldn't load. Check your connection and refresh.",
-    close: "Close matches", playAgain: "Play again",
+    close: "Other characters close to your answers", playAgain: "Play again",
+    closeIntro: (name, p) => `Your answers matched ${name} most (${p}%). These four came next. Tap one to read their card.`,
     note: "A reflection based on how these characters are told in the stories, not a religious judgement. Versions of every story differ by region and text, and every character, even the villains, carries a lesson.",
     friend: "A friend drew this card. Which one is yours?", findMine: "Find my card", home: "Back to start",
     loadFail: "The quiz couldn't load. Check your connection and refresh the page.",
@@ -359,7 +364,8 @@ const STRINGS = {
     shareText: (c, r) => `मुझे ${c.dev} मिले, एक ${r} कार्ड: ${c.e}। आपके साथ कौन-सा पात्र चलता है?`,
     storyOf: name => `${name} की कथा`, story: "कथा", belief: "लोग क्या मानते हैं", turns: "भूलें और मोड़", facts: "क्या आप जानते हैं?",
     loadingStory: "कथा लोड हो रही है…", storyFail: "कथा लोड नहीं हो सकी। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
-    close: "निकटतम मेल", playAgain: "फिर से खेलें",
+    close: "आपके जवाबों के क़रीब दूसरे पात्र", playAgain: "फिर से खेलें",
+    closeIntro: (name, p) => `आपके जवाब सबसे ज़्यादा ${name} से मिले (${p}%)। उसके बाद ये चार आए। किसी का भी कार्ड पढ़ने के लिए उस पर टैप करें।`,
     note: "यह इस बात पर आधारित एक चिंतन है कि कथाओं में इन पात्रों को कैसे बताया गया है, कोई धार्मिक निर्णय नहीं। हर कथा के रूप क्षेत्र और ग्रंथ के अनुसार बदलते हैं, और हर पात्र, खलनायक भी, कोई न कोई सीख देता है।",
     friend: "आपके दोस्त को यह कार्ड मिला। आपका कौन-सा है?", findMine: "मेरा कार्ड खोजें", home: "शुरुआत पर लौटें",
     loadFail: "क्विज़ लोड नहीं हो सका। इंटरनेट जाँचकर पेज रीफ़्रेश करें।",
@@ -680,8 +686,8 @@ async function renderResult() {
   const isNew = !collection.has(top.id);
   collection.add(top.id); saveCollection(collection);
   document.documentElement.style.setProperty("--frame", rc(top.r));
-  const bars = ranked.slice(0, 4).map(t => `<div class="bar" style="--c:${rc(t.c.r)}"><span>${nm(t.c)}</span>
-    <span class="track"><span class="fill" style="width:${matchPct(t.s)}%"></span></span><span class="pct">${matchPct(t.s)}%</span></div>`).join("");
+  // The next closest characters, as tappable cards with their match.
+  const near = ranked.slice(1, 5).map(t => `<button class="mini-btn near" data-id="${t.c.id}" aria-label="${nm(t.c)}, ${T.match(matchPct(t.s))}">${miniFace(t.c)}<span class="near-pct">${T.match(matchPct(t.s))}</span></button>`).join("");
   app.innerHTML = `<section class="result fadein">
     ${diyas(QUESTIONS_PER_QUIZ)}
     <p class="eyebrow center reveal-label" id="reveal-label">${T.rising(LANG === "hi" ? devNum(QUESTIONS_PER_QUIZ) : QUESTIONS_PER_QUIZ)}</p>
@@ -696,13 +702,14 @@ async function renderResult() {
       ${whyHTML(top, ranked)}
       ${shareHTML(top)}
       ${storyHTML(top)}
-      <div class="mix"><h3>${T.close}</h3>${bars}<p class="meta">${T.pctNote}</p></div>
+      <div class="mix"><h3>${T.close}</h3><p class="meta">${T.closeIntro(nm(top), matchPct(ranked[0].s))}</p><div class="near-grid">${near}</div><p class="meta">${T.pctNote}</p></div>
       <div class="row"><button class="btn" id="again">${T.playAgain}</button></div>
       <p class="note">${T.note}</p>
     </div>
   </section>
   ${collectionHTML()}`;
   document.getElementById("again").onclick = start;
+  app.querySelectorAll(".near").forEach(b => b.onclick = () => renderCardOnly(byId[b.dataset.id], false));
   const ishtaBtn = document.getElementById("see-ishta");
   if (ishtaBtn) ishtaBtn.onclick = () => renderCardOnly(byId[ishtaBtn.dataset.id], false);
   wireShare(top); wireCollection(); attachTilt(document.getElementById("flip")); fillLore(top);
